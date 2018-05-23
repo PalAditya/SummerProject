@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/show_me"
+            android:icon="@drawable/ic_map"
+            android:title="@string/path" />
+        <item
+            android:id="@+id/Temp"
+            android:icon="@drawable/ic_temp"
+            android:title="@string/Show_temperature" />
+        <item
+            android:id="@+id/suggest"
+            android:icon="@drawable/ic_suggest"
+            android:title="@string/Show_suggestions" />
+        <item
+            android:id="@+id/add_mine"
+            android:icon="@drawable/ic_add"
+            android:title="@string/add_suggestions" />
+        <item
+            android:id="@+id/alert"
+            android:icon="@drawable/ic_alert"
+            android:title="@string/alert" />
+        <item
+            android:id="@+id/profile"
+            android:icon="@drawable/ic_profile"
+            android:title="@string/change_profile" />
+    </group>
+</menu>

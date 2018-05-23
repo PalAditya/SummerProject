@@ -4,19 +4,20 @@
     <string name="app_name">SummerProject</string>
     <string name="change_city">Change city</string>
     <string name="change_profile">Update profile</string>
-    <string name="Show_suggestions">Show path</string>
+    <string name="Show_suggestions">Show Suggestions</string>
     <string name="open_weather_maps_app_id">d659002e728c0393b27f7d53f9acf94c</string>
-
+    <string name="path">Show Path</string>
     <string name="weather_sunny">&#xf00d;</string>
     <string name="weather_clear_night">&#xf02e;</string>
-
+    <string name="alert">Major weather alerts…</string>
     <string name="weather_foggy">&#xf014;</string>
     <string name="weather_cloudy">&#xf013;</string>
     <string name="weather_rainy">&#xf019;</string>
     <string name="weather_snowy">&#xf01b;</string>
     <string name="weather_thunder">&#xf01e;</string>
     <string name="weather_drizzle">&#xf01c;</string>
-
+    <string name="add_suggestions">Add my suggestion</string>
+    <string name="Show_temperature">Show Temperature</string>
     <string name="place_not_found">Sorry, no weather data found.</string>
 
 </resources>
