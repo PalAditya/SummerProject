@@ -1,5 +1,6 @@
 package com.app.lenovo.summerproject;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,9 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
+import java.util.LinkedHashSet;
+import java.util.TreeSet;
+
 public class StatesData extends AppCompatActivity{
     private DrawerLayout mDrawerLayout;
     int h=getScreenHeight();
@@ -18,6 +22,7 @@ public class StatesData extends AppCompatActivity{
     int p=1;
     String names[]={"Oregon","Idaho","Wyoming","South Dakota","California","Nevada","Utah","Colorado","Arizona","New Mexico",
             "Oklahama","Arkansas","Texas","Louisiana","Mississippi","Albama"};
+    LinkedHashSet<String> lhs=new LinkedHashSet<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +39,14 @@ public class StatesData extends AppCompatActivity{
                         Log.e("Item",""+menuItem.getItemId());
                         switch (menuItem.getItemId()) {
                             case R.id.profile:
-                                Toast.makeText(getApplicationContext(),"Profile",Toast.LENGTH_LONG).show();
-                                finishActivity(200);
+                                Toast.makeText(getApplicationContext(),"Profile",Toast.LENGTH_SHORT).show();
+                                try {
+                                    Intent intent=new Intent(StatesData.this,ProfileHandling.class);
+                                    startActivity(intent);
+                                }catch (Exception e)
+                                {
+                                    Log.e("Activity",e.getMessage());
+                                }
                                 break;
                             case R.id.add_mine:
                                 Toast.makeText(getApplicationContext(),"My suggestion",Toast.LENGTH_LONG).show();
@@ -50,10 +61,6 @@ public class StatesData extends AppCompatActivity{
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
-
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
-
                         return true;
                     }
                 });
@@ -63,8 +70,12 @@ public class StatesData extends AppCompatActivity{
         int x = (int)event.getX();
         int y = (int)event.getY();
         Log.e("Hmm",x+","+y);
-        if(x<=w/4)
-            Log.e(p+"",names[0]);
+        if(x<=w/4) {
+            Log.e(p + "", names[0]);
+            lhs.add(names[0]);
+            if(lhs.size()>2)
+                lhs.remove(lhs.iterator().next());
+        }
         else if(x>w/4&&x<=2*w/4)
             Log.e(p+"",names[1]);
         if(x>2*w/4&&x<=3*w/4)

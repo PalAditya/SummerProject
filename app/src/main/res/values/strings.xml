@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">SummerProject</string>
     <string name="change_city">Change city</string>
     <string name="change_profile">Update profile</string>
@@ -19,5 +18,16 @@
     <string name="add_suggestions">Add my suggestion</string>
     <string name="Show_temperature">Show Temperature</string>
     <string name="place_not_found">Sorry, no weather data found.</string>
-
+    <string name="Heatstrokes">Heatstroke?</string>
+    <string name="Fainting">Faintings?</string>
+    <string name="Migraine">Migraines?</string>
+    <string name="Break">Skin problems at low moisture?</string>
+    <string name="Pimple">Pimples on high heat?</string>
+    <string name="Recover">Rest recommended?</string>
+    <string name="bp">Blood Pressure</string>
+    <string name="date">Date…</string>
+    <string name="range">"Nice temperatures…"</string>
+    <string name="other">Any other issues?(Be concise)</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
 </resources>

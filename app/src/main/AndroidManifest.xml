@@ -21,6 +21,10 @@
         <activity android:name=".StatesData"
             android:parentActivityName=".MainActivity">
         </activity>
+    <activity android:name=".ProfileHandling"
+        android:parentActivityName=".StatesData">
+    </activity>
+
     </application>
 
 </manifest>
