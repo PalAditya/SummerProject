@@ -3,7 +3,6 @@ package com.app.lenovo.summerproject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -95,5 +94,10 @@ public class ProfileHandling extends AppCompatActivity {
             }
         });
 
+    }
+    public String BP() {
+        EditText e1=findViewById(R.id.editText2);
+        String s1=e1.getText().toString();
+            return s1;
     }
 }

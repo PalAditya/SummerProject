@@ -1,5 +1,4 @@
 package com.app.lenovo.summerproject;
-
 import java.util.*;
 class Algorithms
 {
@@ -33,7 +32,7 @@ class Algorithms
         Algorithms obj=new Algorithms(0);
         obj.go();
     }
-    public void go()
+    public Algorithms go()
     {
         Scanner sc=new Scanner(System.in);
         double data[][]={{24.3,56.3,20},{24.3,45.5,36},{24.3,45,25},{24.3,92,28.4},{46.2,60,25.7},{64.3,30.5,34.8},{24.3,60,42.4},{24.3,60,65.6},
@@ -59,7 +58,8 @@ class Algorithms
         //g.display();
         g.modifyEdgeCost(data);
         //g.display();
-        g.shortestPath(0);
+        //g.shortestPath(0);
+        return g;
     }
     void display()
     {
@@ -77,6 +77,8 @@ class Algorithms
     {
         int i;
         double weight;
+        //ProfileHandling obj=new ProfileHandling();
+        //String s1=obj.BP();
         for(i=0;i<V;i++)
         {
             ListIterator itr=adj[i].listIterator();
@@ -97,7 +99,7 @@ class Algorithms
         }
     }
     @SuppressWarnings("unchecked")
-    void shortestPath(int u)
+    void shortestPath(int u,int dest,double dist[],int par[])
     {
         PriorityQueue<Pair> pq = new PriorityQueue(V,new Comparator<Pair>()
         {
@@ -107,9 +109,9 @@ class Algorithms
             }
         }
         );
-        double dist[]=new double[V];
+        //double dist[]=new double[V];
         int i;
-        for(i=0;i<V;i++)
+       /* for(i=0;i<V;i++)
         {
             Iterator itr=adj[i].iterator();
             while(itr.hasNext())
@@ -117,7 +119,7 @@ class Algorithms
                 Pair temp2=(Pair)itr.next();
                 //System.out.println(i+": "+temp2.v+" "+temp2.w);
             }
-        }
+        }*/
         for(i=0;i<V;i++)
             dist[i]=Integer.MAX_VALUE;
         dist[u]=0;
@@ -140,6 +142,7 @@ class Algorithms
                     dist[v1]=w1+dist[vertex];
                     //parent[v1]=vertex;
                     pq.add(new Pair(v1,dist[v1]));
+                    par[v1]=vertex;
                 }
             }
         }
