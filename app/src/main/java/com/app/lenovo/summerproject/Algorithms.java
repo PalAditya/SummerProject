@@ -1,4 +1,6 @@
 package com.app.lenovo.summerproject;
+import android.util.Log;
+
 import java.util.*;
 class Algorithms
 {
@@ -34,7 +36,7 @@ class Algorithms
     }
     public Algorithms go()
     {
-        Scanner sc=new Scanner(System.in);
+        //Scanner sc=new Scanner(System.in);
         double data[][]={{24.3,56.3,20},{24.3,45.5,36},{24.3,45,25},{24.3,92,28.4},{46.2,60,25.7},{64.3,30.5,34.8},{24.3,60,42.4},{24.3,60,65.6},
                 {44.3,60,25.8},{34.3,40.7,36.4},{24.3,36.8,36.8},{44.3,36,24},{24.3,60,15},{24.3,49,17.6},{24.3,60,26.3},{34.3,60,32.7}};
         int i=0,k=0;
@@ -77,8 +79,8 @@ class Algorithms
     {
         int i;
         double weight;
-        //ProfileHandling obj=new ProfileHandling();
-        //String s1=obj.BP();
+
+
         for(i=0;i<V;i++)
         {
             ListIterator itr=adj[i].listIterator();
@@ -140,7 +142,6 @@ class Algorithms
                 if(dist[v1]>w1+dist[vertex])
                 {
                     dist[v1]=w1+dist[vertex];
-                    //parent[v1]=vertex;
                     pq.add(new Pair(v1,dist[v1]));
                     par[v1]=vertex;
                 }

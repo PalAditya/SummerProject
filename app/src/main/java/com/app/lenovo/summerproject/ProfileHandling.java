@@ -55,6 +55,9 @@ public class ProfileHandling extends AppCompatActivity {
                 String str=button.getText()+"";
                 if(str.equalsIgnoreCase("save"))
                 {
+                    HelperClass.putSharedPreferencesString(getApplicationContext(),"Bp",e1.getText().toString());
+                    HelperClass.putSharedPreferencesString(getApplicationContext(),"Temp",e2.getText().toString());
+                    HelperClass.putSharedPreferencesString(getApplicationContext(),"Other",e3.getText().toString());
                     editor=sharedpreferences.edit();
                     editor.putString("Bp",e1.getText().toString());
                     editor.putString("Temp",e2.getText().toString());
@@ -96,8 +99,8 @@ public class ProfileHandling extends AppCompatActivity {
 
     }
     public String BP() {
-        EditText e1=findViewById(R.id.editText2);
-        String s1=e1.getText().toString();
+        String s1=sharedpreferences.getString("Bp","");
             return s1;
     }
+
 }

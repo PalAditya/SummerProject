@@ -2,6 +2,7 @@ package com.app.lenovo.summerproject;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -128,11 +129,21 @@ public class StatesData extends AppCompatActivity{
         Algorithms obj=new Algorithms(16);
         double dist[]=new double[16];
         int parent[]=new int[16];
+        int mapping[]={R.id.textView11,R.id.textView4,R.id.textView5,R.id.textView6,
+                R.id.textView7,R.id.textView12,R.id.textView17,R.id.textView18
+                ,R.id.textView3,R.id.textView16,R.id.textView13,R.id.textView14
+                ,R.id.textView15,R.id.textView8,R.id.textView9,R.id.textview20};
+        try {
+            String s1 = HelperClass.getSharedPreferencesString(getApplicationContext(), "Bp", "");
+            Toast.makeText(getApplicationContext(), "Please!" + s1, Toast.LENGTH_SHORT).show();
+        }catch(NullPointerException e)
+        {
+            Log.e("Null",e.getMessage());
+        }
         obj=obj.go();
-        lhs.clear();
+        /*lhs.clear();
         lhs.add(0);
-        lhs.add(7);
-
+        lhs.add(7);*/
         if(lhs.size()==2)
         {
             //Toast.makeText(getApplicationContext(),"Reached here",Toast.LENGTH_SHORT).show();
@@ -144,7 +155,9 @@ public class StatesData extends AppCompatActivity{
                 obj.shortestPath(x, y, dist, parent);
                 String s=dist[y] + "," + parent[y];
                 Log.e("Umm",s+","+ Arrays.toString(parent));
-                //colourIt(parent,y,s);
+                colourIt(parent,y,mapping);
+                TextView t=findViewById(mapping[x]);
+                t.setBackgroundColor(Color.GREEN);
                // Log.e("Umm",s);
             }catch (Exception e)
             {
@@ -152,15 +165,15 @@ public class StatesData extends AppCompatActivity{
             }
         }
     }
-    void colourIt(int parent[],int y,String s)
-    {
-        while(parent[y]!=y) {
-            s=s+","+y;
-            colourIt(parent, parent[y],s);
+    private void colourIt(int par[],int x,int mapping[]) {
+        if(par[x]!=x) {
+            TextView t=findViewById(mapping[x]);
+            t.setBackgroundColor(Color.GREEN);
+            colourIt(par, par[x], mapping);
         }
-    }
-    /*@Override
 
+    }
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -269,16 +282,16 @@ public class StatesData extends AppCompatActivity{
         }
         else if(x>3*w/4&&y>=3*h/4) {
             Log.e(p + "", name[15]);
-            //lhs.add(names[15]);
-            //if(lhs.size()>2)
-               // lhs.remove(lhs.iterator().next());
+            lhs.add(names[15]);
+            if(lhs.size()>2)
+                lhs.remove(lhs.iterator().next());
             //NavigationView navigationView = findViewById(R.id.nav_view);
             //dummy();
         }
 
         p++;
         return false;
-    }*/
+    }
     public static int getScreenWidth() {
 
         return Resources.getSystem().getDisplayMetrics().widthPixels;
