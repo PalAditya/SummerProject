@@ -9,7 +9,7 @@ public class SuggestionModel {
     }
     public SuggestionModel( String p, int c)
     {
-        this.count=c+1;
+        this.count=c;
         this.path=p;
     }
 }

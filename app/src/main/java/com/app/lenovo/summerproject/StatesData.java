@@ -14,9 +14,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,15 +34,12 @@ public class StatesData extends AppCompatActivity{
             "Oklahama","Arkansas","Texas","Louisiana","Mississippi","Albama"};
     int names[]={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
     LinkedHashSet<Integer> lhs=new LinkedHashSet<>();
+    LinkedHashSet<Integer> lhs2=new LinkedHashSet<>();
     private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.states);
-
-        Log.e("Height",h+"");
-        Log.e("Width",w+"");
-
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -85,9 +79,9 @@ public class StatesData extends AppCompatActivity{
                 break;
             case R.id.alert:
                 Toast.makeText(getApplicationContext(),"Alert",Toast.LENGTH_SHORT).show();
-                mDatabase=FirebaseDatabase.getInstance().getReference();
+                /*mDatabase=FirebaseDatabase.getInstance().getReference();
                 SuggestionModel sm = new SuggestionModel("012", 1);
-                mDatabase.child(name[0]).setValue(sm).addOnSuccessListener(new OnSuccessListener<Void>() {
+                mDatabase.child(name[0]).push().setValue(sm).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
@@ -99,8 +93,8 @@ public class StatesData extends AppCompatActivity{
                                 Toast.makeText(getApplicationContext(),"Failure",Toast.LENGTH_SHORT).show();
                             }
                         });
-                //SuggestionModel sm2 = new SuggestionModel("0459", 1);
-                //mDatabase.child(name[0]).setValue(sm2);
+                SuggestionModel sm2 = new SuggestionModel("0459", 1);
+                mDatabase.child(name[0]).push().setValue(sm2);*/
                 break;
             case R.id.show_me:
                 Toast.makeText(getApplicationContext(),"Show Path",Toast.LENGTH_SHORT).show();
@@ -122,20 +116,41 @@ public class StatesData extends AppCompatActivity{
 
     private void dummy3()
     {
-        int c=0;
-
+        StringBuilder sb=new StringBuilder();
+        Iterator itr=lhs2.iterator();
+        int i=(int)itr.next();
+        final String xr=name[i];
+        sb.append(i);
+        while(itr.hasNext())
+            sb.append(itr.next());
+        final String str=sb.toString();
+        lhs2.clear();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Query query=mDatabase.orderByChild(name[0]);
+        Query query=mDatabase.child(xr).orderByChild("path").equalTo(str);
         Log.e("0",query+"");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    Log.e("1","If top");
-                    for (DataSnapshot children : dataSnapshot.getChildren()) {
-                        if(children.child("path").getValue(String.class).equals(name[2]))
+                    Toast.makeText(getApplicationContext(),"Exists",Toast.LENGTH_SHORT).show();
+                    for (DataSnapshot children : dataSnapshot.getChildren())
+                    {
+                        Toast.makeText(getApplicationContext(),""+children.child("count").getValue(),Toast.LENGTH_SHORT).show();
+                        try {
+                            int x = Integer.parseInt(children.child("count").getValue().toString());
+                            children.getRef().removeValue();
+                            final SuggestionModel sm = new SuggestionModel(str, x + 1);
+                            mDatabase.child(xr).push().setValue(sm);
+                        }catch (ClassCastException e)
                         {
-                            Log.e("2","Existing node");
+                            Log.e("What?",e.getMessage());
+                        }
+                    }
+                    /*Log.e("1","If top");
+                    for (DataSnapshot children : dataSnapshot.getChildren()) {
+                        if(children.child("path").getValue(String.class)!=null)
+                        {
+                            Log.e("2","Existing node,"+children.child("path").getValue(String.class));
                             try {
                                 final SuggestionModel sm = new SuggestionModel(name[2], children.child("count").getValue(Integer.class));
                                 mDatabase.child(name[0]).setValue(sm);
@@ -152,13 +167,13 @@ public class StatesData extends AppCompatActivity{
                             final SuggestionModel sm = new SuggestionModel(name[2], 1);
                             mDatabase.child(name[0]).setValue(sm);
                         }
-                    }
+                    }*/
                 }
                 else
                 {
-                    Log.e("4","Push value!");
-                    final SuggestionModel sm = new SuggestionModel(name[2], 1);
-                    mDatabase.child(name[0]).setValue(sm);
+                    Toast.makeText(getApplicationContext(),"Does not Exist",Toast.LENGTH_SHORT).show();
+                    final SuggestionModel sm = new SuggestionModel(str, 1);
+                    mDatabase.child(xr).push().setValue(sm);
                 }
             }
 
@@ -265,93 +280,109 @@ public class StatesData extends AppCompatActivity{
         if(x<=w/4&&y<=h/4) {
             Log.e(p + "", name[0]);
             lhs.add(names[0]);
+            lhs2.add(names[0]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }
         else if(x>w/4&&x<=2*w/4&&y<=h/4) {
             Log.e(p + "", name[1]);
             lhs.add(names[1]);
+            lhs2.add(names[1]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }
         if(x>2*w/4&&x<=3*w/4&&y<=h/4) {
             Log.e(p + "", name[2]);
             lhs.add(names[2]);
+            lhs2.add(names[2]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }
         else if(x>3*w/4&&y<=h/4) {
             Log.e(p + "", name[3]);
             lhs.add(names[3]);
+            lhs2.add(names[3]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }else if(x<=w/4&&y>=h/4&&y<=h/2) {
             Log.e(p + "", name[4]);
             lhs.add(names[4]);
+            lhs2.add(names[4]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }
         else if(x>w/4&&x<=2*w/4&&y>=h/4&&y<=h/2) {
             Log.e(p + "", name[5]);
             lhs.add(names[5]);
+            lhs2.add(names[5]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }
         if(x>2*w/4&&x<=3*w/4&&y>=h/4&&y<=h/2) {
             Log.e(p + "", name[6]);
             lhs.add(names[6]);
+            lhs2.add(names[6]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }
         else if(x>3*w/4&&y>=h/4&&y<=h/2) {
             Log.e(p + "", name[7]);
             lhs.add(names[7]);
+            lhs2.add(names[7]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }else if(x<=w/4&&y>=h/2&&y<=3*h/4) {
             Log.e(p + "", name[8]);
             lhs.add(names[8]);
+            lhs2.add(names[8]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }
         else if(x>w/4&&x<=2*w/4&&y>=h/2&&y<=3*h/4) {
             Log.e(p + "", name[9]);
             lhs.add(names[9]);
+            lhs2.add(names[9]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }
         if(x>2*w/4&&x<=3*w/4&&y>=h/2&&y<=3*h/4) {
             Log.e(p + "", name[10]);
             lhs.add(names[10]);
+            lhs2.add(names[10]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }
         else if(x>3*w/4&&y>=h/2&&y<=3*h/4) {
             Log.e(p + "", name[11]);
             lhs.add(names[11]);
+            lhs2.add(names[11]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }else if(x<=w/4&&y>=3*h/4) {
             Log.e(p + "", name[12]);
             lhs.add(names[12]);
+            lhs2.add(names[12]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }
         else if(x>w/4&&x<=2*w/4&&y>=3*h/4) {
             Log.e(p + "", name[13]);
             lhs.add(names[13]);
+            lhs2.add(names[13]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }
         if(x>2*w/4&&x<=3*w/4&&y>=3*h/4) {
             Log.e(p + "", name[14]);
             lhs.add(names[14]);
+            lhs2.add(names[14]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
         }
         else if(x>3*w/4&&y>=3*h/4) {
             Log.e(p + "", name[15]);
             lhs.add(names[15]);
+            lhs2.add(names[15]);
             if(lhs.size()>2)
                 lhs.remove(lhs.iterator().next());
             //NavigationView navigationView = findViewById(R.id.nav_view);
