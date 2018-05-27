@@ -41,7 +41,7 @@ public class ProfileHandling extends AppCompatActivity {
         c5.setChecked(sharedpreferences.getBoolean("c5",false));
         c6.setChecked(sharedpreferences.getBoolean("c6",false));
         final TextView textView=findViewById(R.id.textView);
-        textView.setText(sharedpreferences.getString("date",""));
+        textView.setText(sharedpreferences.getString("Date",""));
         CalendarView calendarView=findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -58,6 +58,13 @@ public class ProfileHandling extends AppCompatActivity {
                     HelperClass.putSharedPreferencesString(getApplicationContext(),"Bp",e1.getText().toString());
                     HelperClass.putSharedPreferencesString(getApplicationContext(),"Temp",e2.getText().toString());
                     HelperClass.putSharedPreferencesString(getApplicationContext(),"Other",e3.getText().toString());
+                    HelperClass.putSharedPreferencesString(getApplicationContext(),"Date",textView.getText().toString());
+                    HelperClass.putSharedPreferencesBoolean(getApplicationContext(),"c1",c1.isChecked());
+                    HelperClass.putSharedPreferencesBoolean(getApplicationContext(),"c2",c2.isChecked());
+                    HelperClass.putSharedPreferencesBoolean(getApplicationContext(),"c3",c3.isChecked());
+                    HelperClass.putSharedPreferencesBoolean(getApplicationContext(),"c4",c4.isChecked());
+                    HelperClass.putSharedPreferencesBoolean(getApplicationContext(),"c5",c5.isChecked());
+                    HelperClass.putSharedPreferencesBoolean(getApplicationContext(),"c6",c6.isChecked());
                     editor=sharedpreferences.edit();
                     editor.putString("Bp",e1.getText().toString());
                     editor.putString("Temp",e2.getText().toString());
@@ -68,7 +75,7 @@ public class ProfileHandling extends AppCompatActivity {
                     editor.putBoolean("c4",c4.isChecked());
                     editor.putBoolean("c5",c5.isChecked());
                     editor.putBoolean("c6",c6.isChecked());
-                    editor.putString("date",textView.getText().toString());
+                    editor.putString("Date",textView.getText().toString());
                     editor.commit();
                     button.setText("edit");
                     e1.setEnabled(false);
@@ -98,9 +105,6 @@ public class ProfileHandling extends AppCompatActivity {
         });
 
     }
-    public String BP() {
-        String s1=sharedpreferences.getString("Bp","");
-            return s1;
-    }
+
 
 }

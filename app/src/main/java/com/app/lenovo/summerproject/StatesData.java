@@ -5,26 +5,29 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-
 public class StatesData extends AppCompatActivity{
-    private DrawerLayout mDrawerLayout;
     int h=getScreenHeight();
     int w=getScreenWidth();
     int p=1;
@@ -34,61 +37,15 @@ public class StatesData extends AppCompatActivity{
             "Oklahama","Arkansas","Texas","Louisiana","Mississippi","Albama"};
     int names[]={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
     LinkedHashSet<Integer> lhs=new LinkedHashSet<>();
+    private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.states);
-        /*mDrawerLayout = findViewById(R.id.drawer_layout);
-        final NavigationView navigationView = findViewById(R.id.nav_view);*/
+
         Log.e("Height",h+"");
         Log.e("Width",w+"");
-        /*Button button=findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View view) {
-                                          Toast.makeText(getApplicationContext(),"Come On",Toast.LENGTH_SHORT).show();
-                                          dummy();
-                                      }
-                                  }
 
-        );*/
-        /*navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        Log.e("Item",""+menuItem.getItemId());
-                        switch (menuItem.getItemId()) {
-                            case R.id.profile:
-                                Toast.makeText(getApplicationContext(),"Profile",Toast.LENGTH_SHORT).show();
-                                try {
-                                    Intent intent=new Intent(StatesData.this,ProfileHandling.class);
-                                    startActivity(intent);
-                                }catch (Exception e)
-                                {
-                                    Log.e("Activity",e.getMessage());
-                                }
-                                break;
-                            case R.id.add_mine:
-                                Toast.makeText(getApplicationContext(),"My suggestion",Toast.LENGTH_LONG).show();
-                                break;
-                            case R.id.alert:
-                                Toast.makeText(getApplicationContext(),"Mine",Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.show_me:
-                                Toast.makeText(getApplicationContext(),"Show Path",Toast.LENGTH_SHORT).show();
-                                dummy();
-                                break;
-                            default:
-                                Toast.makeText(getApplicationContext(),"Uh-oh",Toast.LENGTH_SHORT).show();
-
-                        }
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        // close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });*/
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -97,6 +54,19 @@ public class StatesData extends AppCompatActivity{
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+            String s1 = HelperClass.getSharedPreferencesString(getApplicationContext(), "Bp", "");
+            String s2 = HelperClass.getSharedPreferencesString(getApplicationContext(), "Temp", "");
+            String s3 = HelperClass.getSharedPreferencesString(getApplicationContext(), "Other", "");
+            String s4 = HelperClass.getSharedPreferencesString(getApplicationContext(), "Date", "");
+            boolean c1=HelperClass.getSharedPreferencesBoolean(getApplicationContext(),"c1",false);
+            boolean c2=HelperClass.getSharedPreferencesBoolean(getApplicationContext(),"c2",false);
+            boolean c3=HelperClass.getSharedPreferencesBoolean(getApplicationContext(),"c3",false);
+            boolean c4=HelperClass.getSharedPreferencesBoolean(getApplicationContext(),"c4",false);
+            boolean c5=HelperClass.getSharedPreferencesBoolean(getApplicationContext(),"c5",false);
+            boolean c6=HelperClass.getSharedPreferencesBoolean(getApplicationContext(),"c6",false);
+            //Toast.makeText(getApplicationContext(), "Please!" + s1, Toast.LENGTH_SHORT).show();
+
         switch (item.getItemId()) {
             case R.id.profile:
                 Toast.makeText(getApplicationContext(),"Profile",Toast.LENGTH_SHORT).show();
@@ -108,15 +78,40 @@ public class StatesData extends AppCompatActivity{
                     Log.e("Activity",e.getMessage());
                 }
                 break;
+
             case R.id.add_mine:
                 Toast.makeText(getApplicationContext(),"My suggestion",Toast.LENGTH_LONG).show();
+                dummy3();
                 break;
             case R.id.alert:
-                Toast.makeText(getApplicationContext(),"Mine",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Alert",Toast.LENGTH_SHORT).show();
+                mDatabase=FirebaseDatabase.getInstance().getReference();
+                SuggestionModel sm = new SuggestionModel("012", 1);
+                mDatabase.child(name[0]).setValue(sm).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(),"Failure",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                //SuggestionModel sm2 = new SuggestionModel("0459", 1);
+                //mDatabase.child(name[0]).setValue(sm2);
                 break;
             case R.id.show_me:
                 Toast.makeText(getApplicationContext(),"Show Path",Toast.LENGTH_SHORT).show();
                 dummy();
+                break;
+            case R.id.suggest:
+                Toast.makeText(getApplicationContext(),"Suggesting...",Toast.LENGTH_SHORT).show();
+                dummy2(c1,c2,c3,c4,c5,c6);
+                break;
+            case R.id.Temp:
+                Toast.makeText(getApplicationContext(),"Temperatures...",Toast.LENGTH_SHORT).show();
                 break;
             default:
                 Toast.makeText(getApplicationContext(),"Uh-oh",Toast.LENGTH_SHORT).show();
@@ -124,8 +119,88 @@ public class StatesData extends AppCompatActivity{
         }
         return false;
     }
+
+    private void dummy3()
+    {
+        int c=0;
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Query query=mDatabase.orderByChild(name[0]);
+        Log.e("0",query+"");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Log.e("1","If top");
+                    for (DataSnapshot children : dataSnapshot.getChildren()) {
+                        if(children.child("path").getValue(String.class).equals(name[2]))
+                        {
+                            Log.e("2","Existing node");
+                            try {
+                                final SuggestionModel sm = new SuggestionModel(name[2], children.child("count").getValue(Integer.class));
+                                mDatabase.child(name[0]).setValue(sm);
+                                children.getRef().removeValue();
+                                break;
+                            }catch (NullPointerException e)
+                            {
+                                Log.e("Null",e.getMessage());
+                            }
+                        }
+                        else
+                        {
+                            Log.e("3","Should push value");
+                            final SuggestionModel sm = new SuggestionModel(name[2], 1);
+                            mDatabase.child(name[0]).setValue(sm);
+                        }
+                    }
+                }
+                else
+                {
+                    Log.e("4","Push value!");
+                    final SuggestionModel sm = new SuggestionModel(name[2], 1);
+                    mDatabase.child(name[0]).setValue(sm);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void dummy2(boolean c1,boolean c2,boolean c3,boolean c4,boolean c5,boolean c6)
+    {
+        boolean summer=true;//Will parse from the date later
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Suggestions...");
+        TextView tv=new TextView(this);
+        StringBuilder sb=new StringBuilder();
+        if(summer)
+            sb.append("You should wear cotton clothes\n");
+        else
+            sb.append("You shouuld wear cotton clothes\n");
+        if(c1)
+            sb=sb.append("Don't forget to take water bottles with you\n");
+        if(c3)
+            sb.append("Have you taken your migraine medicines?\n");
+        if(c2)
+            sb.append("Please wear a cap or hat if you haven't, also remember to avoid congested places. We don't want another" +
+                    " fainting incident, do we?\n");
+        if(c4)
+            sb.append("Don't forget to take lotions. Also wear loose fitting clothes\n");
+        if(c5)
+            sb.append("Try to stay in shades\n");
+        if(c6)
+            sb.append("Remember to sit down at once if you're feeling tired. Also there's no shame in asking for help\n");
+        tv.setText(sb.toString());
+        builder.setView(tv);
+        builder.show();
+    }
+
     final void dummy()
     {
+        setContentView(R.layout.states);
         Algorithms obj=new Algorithms(16);
         double dist[]=new double[16];
         int parent[]=new int[16];
@@ -133,13 +208,7 @@ public class StatesData extends AppCompatActivity{
                 R.id.textView7,R.id.textView12,R.id.textView17,R.id.textView18
                 ,R.id.textView3,R.id.textView16,R.id.textView13,R.id.textView14
                 ,R.id.textView15,R.id.textView8,R.id.textView9,R.id.textview20};
-        try {
-            String s1 = HelperClass.getSharedPreferencesString(getApplicationContext(), "Bp", "");
-            Toast.makeText(getApplicationContext(), "Please!" + s1, Toast.LENGTH_SHORT).show();
-        }catch(NullPointerException e)
-        {
-            Log.e("Null",e.getMessage());
-        }
+
         obj=obj.go();
         /*lhs.clear();
         lhs.add(0);
