@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity
             }catch (Exception e)
             {
                 Log.e("Couldn't start :( ",e.getMessage());
+                /*Super useless change*/
             }
         }
         else if(item.getItemId()==R.id.Toggle)
