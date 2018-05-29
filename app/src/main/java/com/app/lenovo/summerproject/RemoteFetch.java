@@ -14,10 +14,16 @@ public class RemoteFetch {
 
     private static final String OPEN_WEATHER_MAP_API =
             "http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric";
+    private static final String OPEN_WEATHER_MAP_API_2 =
+            "http://api.openweathermap.org/data/2.5/forecast?q=%s&units=metric";
 
-    public static JSONObject getJSON(Context context, String city){
+    public static JSONObject getJSON(Context context, String city, int mode){
         try {
-            URL url = new URL(String.format(OPEN_WEATHER_MAP_API, city));
+            URL url=null;
+            if(mode==1)
+                url = new URL(String.format(OPEN_WEATHER_MAP_API, city));
+            else
+                url=new URL(String.format(OPEN_WEATHER_MAP_API_2, city));
             HttpURLConnection connection =
                     (HttpURLConnection)url.openConnection();
 
@@ -29,9 +35,20 @@ public class RemoteFetch {
 
             StringBuffer json = new StringBuffer(1024);
             String tmp="";
-            while((tmp=reader.readLine())!=null)
-                json.append(tmp).append("\n");
-            reader.close();
+            int count=0;
+            if(mode==1) {
+                while ((tmp = reader.readLine()) != null)
+                    json.append(tmp).append("\n");
+                reader.close();
+            }
+            else
+            {
+                while ((tmp = reader.readLine()) != null&&count<10) {
+                    json.append(tmp).append("\n");
+                    count++;
+                }
+                reader.close();
+            }
 
             JSONObject data = new JSONObject(json.toString());
 

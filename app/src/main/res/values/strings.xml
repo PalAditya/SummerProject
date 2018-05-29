@@ -30,4 +30,6 @@
     <string name="other">Any other issues?(Be concise)</string>
     <string name="save">Save</string>
     <string name="edit">Edit</string>
+    <string name="current">Current Weather</string>
+    <string name="predict">Predicted Weather</string>
 </resources>

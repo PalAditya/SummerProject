@@ -7,15 +7,15 @@
         android:id="@+id/change_city"
         android:orderInCategory="1"
         android:title="@string/change_city"
-        app:showAsAction="ifRoom" />
+         />
     <item
         android:id="@+id/Profile"
         android:orderInCategory="2"
         android:title="@string/change_profile"
-        app:showAsAction="ifRoom" />
+         />
     <item
-        android:id="@+id/ShowSuggestions"
+        android:id="@+id/Toggle"
         android:orderInCategory="3"
-        android:title="@string/Show_suggestions"
-        app:showAsAction="ifRoom" />
+        android:title="@string/predict"
+         />
 </menu>

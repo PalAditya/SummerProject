@@ -1,5 +1,4 @@
 package com.app.lenovo.summerproject;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -12,10 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
-
 public class MainActivity extends AppCompatActivity
 {
     int SIGN_IN_REQUEST_CODE=200;
@@ -23,7 +20,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(FirebaseAuth.getInstance().getCurrentUser() == null) {
-            // Start sign in/sign up activity
             startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder()
@@ -31,8 +27,6 @@ public class MainActivity extends AppCompatActivity
                     SIGN_IN_REQUEST_CODE
             );
         } else {
-            // User is already signed in. Therefore, display
-            // a welcome Toast
             Toast.makeText(this,
                     "Welcome " + FirebaseAuth.getInstance()
                             .getCurrentUser()
@@ -41,7 +35,10 @@ public class MainActivity extends AppCompatActivity
                     .show();
         }
         setContentView(R.layout.activity_weather);
+        Bundle bundle=new Bundle();
+        bundle.putInt("mode",1);
         WeatherFragment weatherFragment=new WeatherFragment();
+        weatherFragment.setArguments(bundle);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.container,weatherFragment).commit();
         }
@@ -64,8 +61,6 @@ public class MainActivity extends AppCompatActivity
                         "We couldn't sign you in. Please try again later.",
                         Toast.LENGTH_LONG)
                         .show();
-
-                // Close the app
                 finish();
             }
         }
@@ -92,6 +87,22 @@ public class MainActivity extends AppCompatActivity
                 Log.e("Couldn't start :( ",e.getMessage());
             }
         }
+        else if(item.getItemId()==R.id.Toggle)
+        {
+            String s1=item.getTitle().toString();
+            if(s1.equalsIgnoreCase("Current Weather"))
+            {
+                WeatherFragment wf = (WeatherFragment)getSupportFragmentManager().findFragmentById(R.id.container);
+                wf.updateWeatherData(new CityPreference(this).getCity(),1);
+                item.setTitle("Predicted Weather");
+            }
+            else
+            {
+                WeatherFragment wf = (WeatherFragment)getSupportFragmentManager().findFragmentById(R.id.container);
+                wf.updateWeatherData(new CityPreference(this).getCity(),2);
+                item.setTitle("Current Weather");
+            }
+        }
         return false;
     }
     private void showInputDialog(){
@@ -110,8 +121,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void changeCity(String city){
-        WeatherFragment wf = (WeatherFragment)getSupportFragmentManager()
-                .findFragmentById(R.id.container);
+        WeatherFragment wf = (WeatherFragment)getSupportFragmentManager().findFragmentById(R.id.container);
         wf.changeCity(city);
         new CityPreference(this).setCity(city);
     }
