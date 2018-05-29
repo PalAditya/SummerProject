@@ -47,8 +47,8 @@ public class StatesData extends AppCompatActivity{
         return true;
     }
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
             String s1 = HelperClass.getSharedPreferencesString(getApplicationContext(), "Bp", "");
             String s2 = HelperClass.getSharedPreferencesString(getApplicationContext(), "Temp", "");
             String s3 = HelperClass.getSharedPreferencesString(getApplicationContext(), "Other", "");
