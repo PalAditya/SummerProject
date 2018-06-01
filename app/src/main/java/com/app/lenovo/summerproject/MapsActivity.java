@@ -14,7 +14,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,22 +55,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String name[]={"Kolkata","Mumbai","Wyoming","South Dakota","California","Nevada","Utah","Colorado","Arizona","New Mexico",
             "Oklahama","Arkansas","Texas","Louisiana","Mississippi","Albama"};
     int names[]={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+    String str="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
-
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, name);
+        final AutoCompleteTextView autoCompleteTextView=findViewById(R.id.autoCompleteTextView);
+        autoCompleteTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setThreshold(2);
+        Button button=findViewById(R.id.nextbutton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                str=str+autoCompleteTextView.getText().toString()+" ";
+            }
+        });
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+        //View view=navigationView.inflateHeaderView(R.layout.header_view);
+
+
+        navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -99,16 +117,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 dummy2(c1,c2,c3,c4,c5,c6);
                                 break;
                             case R.id.show_me:
-                                Toast.makeText(getApplicationContext(),"Show Path",Toast.LENGTH_SHORT).show();
                                 showInputDialog();
-                                dummy("Kolkata","Mumbai");
+                                String arr[]=str.split(" ");
+                                str="";
+                                if(arr.length>=2)
+                                    dummy(arr[arr.length-1],arr[arr.length-2]);
+                                else
+                                {
+                                    Toast.makeText(getApplicationContext(),"Please add start and end points",Toast.LENGTH_SHORT).show();
+                                }
                                 break;
                             case R.id.Temp:
                                 Toast.makeText(getApplicationContext(),"Temperatures...",Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.add_mine:
                                 Toast.makeText(getApplicationContext(),"My suggestion",Toast.LENGTH_LONG).show();
-                                dummy3();
+                                dummy3(str);
                                 break;
                             case R.id.alert:
                                 Toast.makeText(getApplicationContext(),"Alert",Toast.LENGTH_SHORT).show();
@@ -141,19 +165,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         builder.show();*/
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLngBounds BOUNDS_INDIA = new LatLngBounds(new LatLng(20.63936, 76.14712), new LatLng(28.20453, 91.34466));
+        LatLngBounds BOUNDS_INDIA = new LatLngBounds(new LatLng(19.63936, 76.14712), new LatLng(28.20453, 91.34466));
         mMap.setLatLngBoundsForCameraTarget(BOUNDS_INDIA);
         mMap.setMinZoomPreference(5);
         LatLng Roorkee = new LatLng(29.8453, 77.8880);
@@ -219,7 +234,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     final void dummy(String s1,String s2)
     {
-        //setContentView(R.layout.activity_maps);
         Algorithms obj=new Algorithms(16);
         double dist[]=new double[16];
         int parent[]=new int[16];
@@ -267,15 +281,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LinkIt(par, par[x]);
         }
     }
-    private void dummy3()
+    private void dummy3(String x)
     {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         SuggestionModel sm = new SuggestionModel("012", 1);
         mDatabase.child(name[0]).setValue(sm);
-        //final String xr=name[4];
-        final String str="45789";
+        String arr[]=x.split(" ");
+        str="";
+        String req="";
+        for(int i=0;i<arr.length;i++)
+            req=req+index(arr[i]);
         BackgroundTask backgroundTask=new BackgroundTask(this);
-        backgroundTask.execute("1",str);
+        backgroundTask.execute("1",req);
     }
 }
 
