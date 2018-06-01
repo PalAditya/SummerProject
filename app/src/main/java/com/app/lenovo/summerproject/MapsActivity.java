@@ -159,7 +159,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng Roorkee = new LatLng(29.8453, 77.8880);
         mMap.addMarker(new MarkerOptions().position(Roorkee).title("Marker in Roorkee"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Roorkee));
-        
+
     }
     public LatLng getLocationFromAddress(Context context, String strAddress) {
 
@@ -275,85 +275,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //final String xr=name[4];
         final String str="45789";
         BackgroundTask backgroundTask=new BackgroundTask(this);
-        backgroundTask.execute(str);
-        /*Query query=mDatabase.child(xr).orderByChild("path").equalTo(str);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Toast.makeText(getApplicationContext(),"Ugh",Toast.LENGTH_SHORT).show();
-                if (dataSnapshot.exists()) {
-                    Toast.makeText(getApplicationContext(),"Exists",Toast.LENGTH_SHORT).show();
-                    for (DataSnapshot children : dataSnapshot.getChildren())
-                    {
-                        Toast.makeText(getApplicationContext(),""+children.child("count").getValue(),Toast.LENGTH_SHORT).show();
-                        try {
-                            int x = Integer.parseInt(children.child("count").getValue().toString());
-                            children.getRef().removeValue();
-                            final SuggestionModel sm = new SuggestionModel(str, x + 1);
-                            mDatabase.child(xr).push().setValue(sm).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(),"Failure",Toast.LENGTH_SHORT).show();
-                                        }
-                                    });;
-                        }catch (ClassCastException e)
-                        {
-                            Log.e("What?",e.getMessage());
-                        }
-                    }
-                    /*Log.e("1","If top");
-                    for (DataSnapshot children : dataSnapshot.getChildren()) {
-                        if(children.child("path").getValue(String.class)!=null)
-                        {
-                            Log.e("2","Existing node,"+children.child("path").getValue(String.class));
-                            try {
-                                final SuggestionModel sm = new SuggestionModel(name[2], children.child("count").getValue(Integer.class));
-                                mDatabase.child(name[0]).setValue(sm);
-                                children.getRef().removeValue();
-                                break;
-                            }catch (NullPointerException e)
-                            {
-                                Log.e("Null",e.getMessage());
-                            }
-                        }
-                        else
-                        {
-                            Log.e("3","Should push value");
-                            final SuggestionModel sm = new SuggestionModel(name[2], 1);
-                            mDatabase.child(name[0]).setValue(sm);
-                        }
-                    }*/
-               /* }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"Does not Exist",Toast.LENGTH_SHORT).show();
-                    final SuggestionModel sm = new SuggestionModel(str, 1);
-                    mDatabase.child(xr).push().setValue(sm).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(),"Failure",Toast.LENGTH_SHORT).show();
-                                }
-                            });;
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(),"Failure"+databaseError.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });*/
+        backgroundTask.execute("1",str);
     }
 }
 

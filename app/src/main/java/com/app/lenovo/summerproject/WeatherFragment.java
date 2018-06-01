@@ -146,6 +146,8 @@ public class WeatherFragment extends Fragment {
                 setWeatherIcon(details.getInt("id"),
                         json.getJSONObject("sys").getLong("sunrise") * 1000,
                         json.getJSONObject("sys").getLong("sunset") * 1000);
+                BackgroundTask backgroundTask=new BackgroundTask(getActivity());
+                backgroundTask.execute("2",m1.getString("temp"),m1.getString("pressure"),m1.getString("humidity"));
             }
         }catch (Exception e)
         {

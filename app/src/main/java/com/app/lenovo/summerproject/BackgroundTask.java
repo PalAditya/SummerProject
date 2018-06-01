@@ -36,11 +36,12 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
         String upload_url = "http://almat.almafiesta.com/Kryptex5.0/upload2.php";
-        String path = params [0];
-
+        String theta_url="http://almat.almafiesta.com/Kryptex5.0/Theta.txt";
+        String path = params [1];
+        if(params[0].equals("1")) {
             try {
                 URL url = new URL(upload_url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
                 OutputStream OS = httpURLConnection.getOutputStream();
@@ -59,6 +60,25 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+        }
+        else if(params[0].equals("2"))
+        {
+            try {
+                URL url = new URL(theta_url);
+                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+                String s1[]=in.readLine().split(" ");
+                String s2[]=in.readLine().split(" ");
+                double predict=Double.parseDouble(s1[0])*Double.parseDouble(params[1])+Double.parseDouble(s1[1])*Double.parseDouble(params[2])*0.76+
+                Double.parseDouble(s1[2])*Double.parseDouble(params[3])+Double.parseDouble(s1[3])*Double.parseDouble(s2[0])+
+                Double.parseDouble(s1[4])*Double.parseDouble(s2[1]);
+                return predict+"";
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return "Damn";
     }
 
