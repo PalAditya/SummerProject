@@ -104,6 +104,17 @@ public class MainActivity extends AppCompatActivity
                 item.setTitle("Current Weather");
             }
         }
+        else if(item.getItemId()==R.id.Maps)
+        {
+            try {
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivity(intent);
+            }catch (Exception e)
+            {
+                Log.e("Couldn't start :( ",e.getMessage());
+                /*Super useless change*/
+            }
+        }
         return false;
     }
     private void showInputDialog(){

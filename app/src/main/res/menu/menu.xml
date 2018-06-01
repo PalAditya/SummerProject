@@ -18,4 +18,9 @@
         android:orderInCategory="3"
         android:title="@string/predict"
          />
+    <item
+        android:id="@+id/Maps"
+        android:orderInCategory="3"
+        android:title="@string/Go"
+        />
 </menu>
