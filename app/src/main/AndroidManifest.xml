@@ -27,11 +27,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StatesData"
+        <activity
+            android:name=".StatesData"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".ProfileHandling"
-            android:parentActivityName=".StatesData"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ProfileHandling"
+            android:parentActivityName=".StatesData" />
 
 
         <meta-data

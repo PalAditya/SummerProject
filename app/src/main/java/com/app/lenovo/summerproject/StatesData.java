@@ -35,7 +35,7 @@ public class StatesData extends AppCompatActivity{
     int names[]={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
     LinkedHashSet<Integer> lhs=new LinkedHashSet<>();
     LinkedHashSet<Integer> lhs2=new LinkedHashSet<>();
-    private DatabaseReference mDatabase;
+    //private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +72,6 @@ public class StatesData extends AppCompatActivity{
                     Log.e("Activity",e.getMessage());
                 }
                 break;
-
             case R.id.add_mine:
                 Toast.makeText(getApplicationContext(),"My suggestion",Toast.LENGTH_LONG).show();
                 dummy3();
@@ -116,7 +115,7 @@ public class StatesData extends AppCompatActivity{
 
     private void dummy3()
     {
-        StringBuilder sb=new StringBuilder();
+        /*StringBuilder sb=new StringBuilder();
         Iterator itr=lhs2.iterator();
         int i=(int)itr.next();
         final String xr=name[i];
@@ -167,7 +166,7 @@ public class StatesData extends AppCompatActivity{
                             final SuggestionModel sm = new SuggestionModel(name[2], 1);
                             mDatabase.child(name[0]).setValue(sm);
                         }
-                    }*/
+                    }
                 }
                 else
                 {
@@ -181,7 +180,7 @@ public class StatesData extends AppCompatActivity{
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });*/
     }
 
     private void dummy2(boolean c1,boolean c2,boolean c3,boolean c4,boolean c5,boolean c6)
