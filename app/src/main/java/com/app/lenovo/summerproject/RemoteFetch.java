@@ -35,7 +35,6 @@ public class RemoteFetch {
 
             StringBuffer json = new StringBuffer(1024);
             String tmp="";
-            int count=0;
             if(mode==1) {
                 while ((tmp = reader.readLine()) != null)
                     json.append(tmp).append("\n");
@@ -43,9 +42,9 @@ public class RemoteFetch {
             }
             else
             {
-                while ((tmp = reader.readLine()) != null&&count<10) {
+                while ((tmp = reader.readLine()) != null) {
                     json.append(tmp).append("\n");
-                    count++;
+
                 }
                 reader.close();
             }

@@ -12,11 +12,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class WeatherFragment extends Fragment {
     Typeface weatherFont;
@@ -86,10 +89,25 @@ public class WeatherFragment extends Fragment {
         }
         try
         {
-            lists = json2.getJSONArray("list").getJSONObject(3);
+            /*lists = json2.getJSONArray("list").getJSONObject(3);
             m1=lists.getJSONObject("main");
             w1=lists.getJSONArray("weather").getJSONObject(0);
-            d1=lists.getString("dt_txt");
+            d1=lists.getString("dt_txt");*/
+            JSONArray jsonArray = json2.getJSONArray("list");
+            int l=jsonArray.length(),i=0;
+            Calendar currentTime = Calendar.getInstance();
+            currentTime.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+            int x=currentTime.get(Calendar.HOUR_OF_DAY);
+            Log.e("Time",x+"");
+            for(i=0;i<l;i++)
+            {
+                lists=jsonArray.getJSONObject(i);
+                m1=lists.getJSONObject("main");
+                w1=lists.getJSONArray("weather").getJSONObject(0);
+                d1=lists.getString("dt_txt");
+                if(Integer.parseInt(d1.substring(d1.indexOf(" ")+1,d1.indexOf(":")))>x)
+                    break;
+            }
         }catch (Exception e)
         {
             Log.e("Damn It",e.getMessage());
