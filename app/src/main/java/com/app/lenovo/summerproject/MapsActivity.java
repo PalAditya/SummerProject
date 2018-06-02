@@ -58,8 +58,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     DrawerLayout mDrawerLayout;
     private DatabaseReference mDatabase;
-    String name[] = {"Kolkata", "Mumbai", "Wyoming", "South Dakota", "California", "Nevada", "Utah", "Colorado", "Arizona", "New Mexico",
-            "Oklahama", "Arkansas", "Texas", "Louisiana", "Mississippi", "Albama"};
+    String name[] = {"Srinagar","Delhi","Jaipur","Lucknow","Patna","Dispur","Gandhinagar","Bhopal","Kolkata","Mumbai",
+    "Bhubaneswar","Roorkee","Hyderabad","Bengaluru","Chennai","Thiruvananthapuram"};
     int names[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
     String str = "";
 
@@ -81,6 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 str = str + autoCompleteTextView.getText().toString() + " ";
+                autoCompleteTextView.setText("");
             }
         });
 
@@ -88,11 +89,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         //View view=navigationView.inflateHeaderView(R.layout.header_view);
-        /*ImageView imageView=findViewById(R.id.image);
-        imageView.setBackgroundResource(R.drawable.suggestions);
-        AnimationDrawable anim = (AnimationDrawable) imageView.getBackground();
-        anim.start();*/
-
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -242,6 +238,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             duration+=3000;
         }
         anim.start();
+        anim.setAlpha(230);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -251,7 +248,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         Timer timer = new Timer();
-
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -266,32 +262,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         };
         timer.schedule(timerTask, duration+100);
-
-        /*boolean summer=true;//Will parse from the date later
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Suggestions...");
-        TextView tv=new TextView(this);
-        StringBuilder sb=new StringBuilder();
-        if(summer)
-            sb.append("You should wear cotton clothes\n");
-        else
-            sb.append("You shouuld wear cotton clothes\n");
-        if(c1)
-            sb=sb.append("Don't forget to take water bottles with you\n");
-        if(c3)
-            sb.append("Have you taken your migraine medicines?\n");
-        if(c2)
-            sb.append("Please wear a cap or hat if you haven't, also remember to avoid congested places. We don't want another" +
-                    " fainting incident, do we?\n");
-        if(c4)
-            sb.append("Don't forget to take lotions. Also wear loose fitting clothes\n");
-        if(c5)
-            sb.append("Try to stay in shades\n");
-        if(c6)
-            sb.append("Remember to sit down at once if you're feeling tired. Also there's no shame in asking for help\n");
-        tv.setText(sb.toString());
-        builder.setView(tv);
-        builder.show();*/
     }
 
     int index(String s) {
@@ -309,12 +279,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 R.id.textView7,R.id.textView12,R.id.textView17,R.id.textView18
                 ,R.id.textView3,R.id.textView16,R.id.textView13,R.id.textView14
                 ,R.id.textView15,R.id.textView8,R.id.textView9,R.id.textview20};*/
-        obj = obj.go();
+        obj = obj.go2();
         /*lhs.clear();
         lhs.add(0);
         lhs.add(7);*/
         int x = index(s1);
         int y = index(s2);
+        if(x>=16||y>=16) {
+            Log.e("Eh?","Your index function is wrong!");
+            return;
+        }
         parent[x] = x;
         try {
             obj.shortestPath(x, y, dist, parent);
@@ -355,8 +329,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String arr[] = x.split(" ");
         str = "";
         String req = "";
+        int temp[]=new int[arr.length];
         for (int i = 0; i < arr.length; i++)
-            req = req + index(arr[i]);
+            temp[i]=index(arr[i]);
+        Arrays.sort(temp);
+        req=Arrays.toString(temp);
+        req=req.replace("[","");
+        req=req.replace("]","");
         BackgroundTask backgroundTask = new BackgroundTask(this);
         backgroundTask.execute("1", req);
     }
