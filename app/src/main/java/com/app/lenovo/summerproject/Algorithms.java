@@ -13,6 +13,7 @@ class Algorithms
             v=V;
         }
     }
+    private int max_comf=35;
     private LinkedList<Pair> adj[];
     Algorithms(int v)
     {
@@ -30,7 +31,7 @@ class Algorithms
     }
     public static void main(String args[] ){
         Algorithms obj=new Algorithms(0);
-        obj.go2();
+        //obj.go2("");
     }
     public Algorithms go()
     {
@@ -55,10 +56,7 @@ class Algorithms
             else
                 g.addEdge(i,i-3,20);
         }
-        //g.display();
-        g.modifyEdgeCost(data);
-        //g.display();
-        //g.shortestPath(0);
+        //g.modifyEdgeCost(data,0,0);
         return g;
     }
     void display()
@@ -73,12 +71,14 @@ class Algorithms
             }
         }
     }
-    public Algorithms go2()
+    public Algorithms go2(String temp,String BP,boolean c1, boolean c2, boolean c3, boolean c4, boolean c5, boolean c6)
     {
+        //Rows are cities, columns are Temperatures and Humidity. Ignore column 3 for now
         double data[][]={{24.3,56.3,20},{24.3,45.5,36},{24.3,45,25},{24.3,92,28.4},{46.2,60,25.7},{64.3,30.5,34.8},{24.3,60,42.4},{24.3,60,65.6},
                 {44.3,60,25.8},{34.3,40.7,36.4},{24.3,36.8,36.8},{44.3,36,24},{24.3,60,15},{24.3,49,17.6},{24.3,60,26.3},{34.3,60,32.7}};
         Algorithms g=new Algorithms(16);
-
+        int low=Integer.parseInt(temp.substring(0,2));
+        int high=Integer.parseInt(temp.substring(3));
         //Add for Kolkata[8]
         g.addEdge(8,0,2289.8);
         g.addEdge(8,1,1490.9);
@@ -230,15 +230,13 @@ class Algorithms
 
         //Add for Thiruvananthapuram[15]
 
-        g.modifyEdgeCost(data);
+        g.modifyEdgeCost(data,low,high,BP,c1,c2,c3,c4,c5,c6);
         return g;
     }
-    void modifyEdgeCost(double data[][])
+    void modifyEdgeCost(double data[][],int l,int h,String BP,boolean c1, boolean c2, boolean c3, boolean c4, boolean c5, boolean c6)
     {
         int i;
         double weight;
-
-
         for(i=0;i<V;i++)
         {
             ListIterator itr=adj[i].listIterator();
@@ -246,12 +244,42 @@ class Algorithms
             {
                 Pair temp2=(Pair)itr.next();
                 weight=temp2.w;
-                if(data[temp2.v][0]>30)
-                    weight=data[temp2.v][0]-30+weight;
-                if(data[temp2.v][1]<50)
-                    weight=50-data[temp2.v][1]+weight;
-                if(data[temp2.v][2]>25&&data[temp2.v][0]>30)
-                    weight=data[temp2.v][0]-30+weight;
+                if(data[temp2.v][0]<l) //Rule 1:Temperature less than min_comf, edge cost incremented by 50*DISCOMFORT
+                {
+                    weight = (l-data[temp2.v][0]) * 50 + weight;
+                }
+                else if(data[temp2.v][0]>h)//Rule 2:Temperature greater than max_comf, edge cost incremented by param(initially 50)*DISCOMFORT
+                {
+                    int param=50;
+                    if(c1)//Rule 2.1:If history of heatstroke,param increased by 70
+                        param+=70;
+                    if(c2)//Rule 2.2:If history of faintings,param increased by 50
+                        param+=50;
+                    if(c5)//Rule 2.3:Extra penalty for afflicted persons
+                        param+=40;
+                    weight = (data[temp2.v][0] - h) * param + weight;
+                }
+                else//Rule 3:Penalizing heatstroke prone persons in a similar, yet lessser magnitude,even within comfort zone
+                {
+                    int param=0;
+                    if(c1)//Rule 3.1:If history of heatstroke,param increased by 50
+                        param+=50;
+                    if(c2)//Rule 3.2:If history of faintings,param increased by 30
+                        param+=30;
+                    if(c5)//Extra penalty for afflicted persons
+                        param+=20;
+                    weight = (data[temp2.v][0] - max_comf) * param + weight;
+                }
+                if(data[temp2.v][1]<40) //Rule 4:Low humidity is penalised.by 20*DISCOMFORT
+                {
+                    weight = (40 - data[temp2.v][1]) * 20 + weight;
+                    if(c4)//Rule 4.1:Extra penalty for afflicted persons
+                        weight=(40 - data[temp2.v][1]) * 30 + weight;
+                }
+                else if(data[temp2.v][1]>70)
+                {
+                    weight = (data[temp2.v][1]-70) * 20 + weight;
+                }
                 temp2.w=weight;
                 itr.remove();
                 itr.add(temp2);

@@ -223,7 +223,7 @@ public class StatesData extends AppCompatActivity{
                 ,R.id.textView3,R.id.textView16,R.id.textView13,R.id.textView14
                 ,R.id.textView15,R.id.textView8,R.id.textView9,R.id.textview20};
 
-        obj=obj.go2();
+        //obj=obj.go2();
         /*lhs.clear();
         lhs.add(0);
         lhs.add(7);*/

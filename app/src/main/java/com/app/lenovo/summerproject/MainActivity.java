@@ -1,6 +1,8 @@
 package com.app.lenovo.summerproject;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +38,9 @@ public class MainActivity extends AppCompatActivity
                     .show();
         }
         setContentView(R.layout.activity_weather);
+        //Drawable d4=getApplicationContext().getResources().getDrawable(R.drawable.w_four);
+        //RelativeLayout rl=findViewById(R.id.rlayout);
+        //rl.setBackground(d4);
         Bundle bundle=new Bundle();
         bundle.putInt("mode",1);
         WeatherFragment weatherFragment=new WeatherFragment();

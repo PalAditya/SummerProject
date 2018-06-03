@@ -4,6 +4,9 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
+
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -37,9 +40,10 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         String upload_url = "http://almat.almafiesta.com/Kryptex5.0/upload2.php";
         String theta_url="http://almat.almafiesta.com/Kryptex5.0/Theta.txt";
-        String path = params [1];
+        String relief_url="https://api.reliefweb.int/v1/reports?appname=adityapal.nghss@gmail.com&query[value]=earthquake";
         if(params[0].equals("1")) {
             try {
+                String path = params [1];
                 URL url = new URL(upload_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -77,6 +81,29 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+        else if(params[0].equals("3"))
+        {
+            try {
+                URL url = new URL(relief_url);
+                HttpURLConnection connection =
+                        (HttpURLConnection) url.openConnection();
+                //connection.addRequestProperty("x-api-key", context.getString(R.string.open_weather_maps_app_id));
+
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(connection.getInputStream()));
+
+                StringBuffer json = new StringBuffer(1024);
+                String tmp = "";
+                    while ((tmp = reader.readLine()) != null)
+                        json.append(tmp).append("\n");
+                    reader.close();
+                JSONObject data = new JSONObject(json.toString());
+                Log.e("Data:",data.getString("totalCount")+","+data.getString("count"));
+            }catch (Exception e)
+            {
+                Log.e("Offo",e.getMessage());
             }
         }
         return "Damn";

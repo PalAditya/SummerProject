@@ -1,6 +1,7 @@
 package com.app.lenovo.summerproject;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,9 +45,13 @@ public class WeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_main, container, false);
         cityField = rootView.findViewById(R.id.city_field);
+        cityField.setTextColor(Color.WHITE);
         updatedField = rootView.findViewById(R.id.updated_field);
+        updatedField.setTextColor(Color.WHITE);
         detailsField = rootView.findViewById(R.id.details_field);
+        detailsField.setTextColor(Color.WHITE);
         currentTemperatureField = rootView.findViewById(R.id.current_temperature_field);
+        currentTemperatureField.setTextColor(Color.WHITE);
         weatherIcon = rootView.findViewById(R.id.weather_icon);
         weatherIcon.setTypeface(weatherFont);
         return rootView;
@@ -180,7 +185,8 @@ public class WeatherFragment extends Fragment {
                     break;
             }
         }
-        weatherIcon.setText(icon);
+        //weatherIcon.setText(icon);
+        weatherIcon.setText("");
     }
     public void changeCity(String city){
         updateWeatherData(city,1);

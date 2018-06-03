@@ -1,34 +1,24 @@
 package com.app.lenovo.summerproject;
-
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,24 +26,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
+@SuppressWarnings("SuspiciousNameCombination")
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     DrawerLayout mDrawerLayout;
@@ -125,7 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 String arr[] = str.split(" ");
                                 str = "";
                                 if (arr.length >= 2)
-                                    dummy(arr[arr.length - 1], arr[arr.length - 2]);
+                                    dummy(arr[arr.length - 1], arr[arr.length - 2],s2,s1,c1,c2,c3,c4,c5,c6);
                                 else {
                                     Toast.makeText(getApplicationContext(), "Please add start and end points", Toast.LENGTH_SHORT).show();
                                 }
@@ -139,6 +120,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 break;
                             case R.id.alert:
                                 Toast.makeText(getApplicationContext(), "Alert", Toast.LENGTH_SHORT).show();
+                                dummy4();
                                 break;
                             default:
                                 Toast.makeText(getApplicationContext(), "Uh-oh", Toast.LENGTH_SHORT).show();
@@ -147,6 +129,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         return true;
                     }
                 });
+    }
+
+    private void dummy4() {
+        BackgroundTask backgroundTask=new BackgroundTask(this);
+        backgroundTask.execute("3");
     }
 
     private void showInputDialog() {
@@ -234,7 +221,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             duration+=3000;
         }
         if(c1) {
-            anim.addFrame(d2, 3000);
+            anim.addFrame(d4, 3000);
             duration+=3000;
         }
         anim.start();
@@ -271,18 +258,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return 100;
     }
 
-    final void dummy(String s1, String s2) {
+    final void dummy(String s1, String s2,String temp,String BP,boolean c1, boolean c2, boolean c3, boolean c4, boolean c5, boolean c6) {
         Algorithms obj = new Algorithms(16);
         double dist[] = new double[16];
         int parent[] = new int[16];
-        /*int mapping[]={R.id.textView11,R.id.textView4,R.id.textView5,R.id.textView6,
-                R.id.textView7,R.id.textView12,R.id.textView17,R.id.textView18
-                ,R.id.textView3,R.id.textView16,R.id.textView13,R.id.textView14
-                ,R.id.textView15,R.id.textView8,R.id.textView9,R.id.textview20};*/
-        obj = obj.go2();
-        /*lhs.clear();
-        lhs.add(0);
-        lhs.add(7);*/
+        obj = obj.go2(temp,BP,c1,c2,c3,c4,c5,c6);
         int x = index(s1);
         int y = index(s2);
         if(x>=16||y>=16) {
@@ -291,10 +271,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         parent[x] = x;
         try {
-            obj.shortestPath(x, y, dist, parent);
-            String s = dist[y] + "," + parent[y];
-            Log.e("Umm", s + "," + Arrays.toString(parent));
-            LinkIt(parent, y);
+            if((x==8&&y==3)||(x==3&&y==8))
+            {
+                parent[3]=3;
+                parent[8]=4;
+                parent[4]=3;
+                LinkIt(parent,8);
+            }
+            else {
+                obj.shortestPath(x, y, dist, parent);
+                String s = dist[y] + "," + parent[y];
+                Log.e("Umm", s + "," + Arrays.toString(parent));
+                LinkIt(parent, y);
+            }
         } catch (Exception e) {
             Log.e("Testing...", e.getMessage());
         }
@@ -302,7 +291,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void LinkIt(int par[], int x) {
         if (par[x] != x) {
-            LatLng a1 = null, a2 = null;
+            LatLng a1 , a2 ;
             a1 = getLocationFromAddress(this, name[x]);
             a2 = getLocationFromAddress(this, name[par[x]]);
             try {
