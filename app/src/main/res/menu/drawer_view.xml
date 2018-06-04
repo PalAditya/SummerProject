@@ -19,12 +19,12 @@
             android:icon="@drawable/ic_add"
             android:title="@string/add_suggestions" />
         <item
-            android:id="@+id/alert"
-            android:icon="@drawable/ic_alert"
-            android:title="@string/alert" />
-        <item
             android:id="@+id/profile"
             android:icon="@drawable/ic_profile"
             android:title="@string/change_profile" />
+        <item
+            android:id="@+id/alert"
+            android:icon="@drawable/ic_alert"
+            android:title="@string/alert" />
     </group>
 </menu>

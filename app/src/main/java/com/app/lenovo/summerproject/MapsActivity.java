@@ -6,13 +6,16 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -35,7 +38,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 @SuppressWarnings("SuspiciousNameCombination")
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, BackgroundTask.AsyncResponse {
     private GoogleMap mMap;
     DrawerLayout mDrawerLayout;
     private DatabaseReference mDatabase;
@@ -43,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     "Bhubaneswar","Roorkee","Hyderabad","Bengaluru","Chennai","Thiruvananthapuram"};
     int names[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
     String str = "";
-
+    String menus[]=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,14 +128,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             default:
                                 Toast.makeText(getApplicationContext(), "Uh-oh", Toast.LENGTH_SHORT).show();
                         }
-
+                        try {
+                            if (menuItem.getTitle().equals("Link 1")) {
+                                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(menus[1]));
+                                startActivity(i);
+                            } else if (menuItem.getTitle().equals("Link 2")) {
+                                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(menus[1]));
+                                startActivity(i);
+                            } else if (menuItem.getTitle().equals("Link 3")) {
+                                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(menus[1]));
+                                startActivity(i);
+                            }
+                        }catch (Exception e)
+                        {
+                            Log.e("What now?",e.getMessage());
+                        }
                         return true;
                     }
                 });
     }
 
     private void dummy4() {
-        BackgroundTask backgroundTask=new BackgroundTask(this);
+        BackgroundTask backgroundTask=new BackgroundTask((BackgroundTask.AsyncResponse) this);
         backgroundTask.execute("3");
     }
 
@@ -325,8 +342,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         req=Arrays.toString(temp);
         req=req.replace("[","");
         req=req.replace("]","");
-        BackgroundTask backgroundTask = new BackgroundTask(this);
+        BackgroundTask backgroundTask = new BackgroundTask((Context) this);
         backgroundTask.execute("1", req);
+    }
+
+    @Override
+    public void processFinish(String output) {
+
+        Log.e("Did we get it?",output);
+        menus=output.split(" ");
+        NavigationView navView = findViewById(R.id.nav_view);
+        Menu m = navView.getMenu();
+        try
+        {
+            while(m.size()>6)
+                m.removeItem(m.getItem(6).getItemId());
+        }catch (Exception e)
+        {
+            Log.e("Let's see",e.getMessage());
+        }
+        SubMenu topChannelMenu = m.addSubMenu("Top alerts");
+        topChannelMenu.clear();
+        if(menus.length>=2) {
+            topChannelMenu.add("Link 1");
+        }
+        if(menus.length>=3) {
+            topChannelMenu.add("Link 2");
+        }
+        if(menus.length>=4) {
+            topChannelMenu.add("Link 3");
+        }
+
     }
 }
 
