@@ -112,7 +112,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
         }
         else if(params[0].equals("3"))
         {
-            String links="3 ";
+            String links="9000 ";
             try {
                 //String arr[]=new String[3];
                 int index=0;
@@ -172,7 +172,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
         {
             Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
         }
-        else if(result.startsWith("3"))
+        else if(result.startsWith("9000"))
         {
             delegate.processFinish(result);
         }

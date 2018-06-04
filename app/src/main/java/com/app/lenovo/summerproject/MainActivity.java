@@ -16,6 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+
 public class MainActivity extends AppCompatActivity
 {
     int SIGN_IN_REQUEST_CODE=200;
@@ -86,11 +89,17 @@ public class MainActivity extends AppCompatActivity
         else if(item.getItemId()==R.id.Profile)
         {
             try {
-                Intent intent = new Intent(this, StatesData.class);
-                startActivity(intent);
+                FirebaseMessaging fm = FirebaseMessaging.getInstance();
+                fm.send(new RemoteMessage.Builder("893537070703" + "@gcm.googleapis.com")
+                        .setMessageId("1")
+                        .addData("my_message", "Hello World")
+                        .addData("my_action","SAY_HELLO")
+                        .build());
+                /*Intent intent = new Intent(this, StatesData.class);
+                startActivity(intent);*/
             }catch (Exception e)
             {
-                Log.e("Couldn't start :( ",e.getMessage());
+                Log.e("Couldn't send :( ",e.getMessage());
                 /*Super useless change*/
             }
         }
