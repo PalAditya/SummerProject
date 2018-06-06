@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
@@ -42,6 +43,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     DrawerLayout mDrawerLayout;
     private DatabaseReference mDatabase;
+    int move[]=new int[16];
+    int destination=0;
+    Algorithms obj=null;
+    double distance=0.0;
+    LatLng ll[]=new LatLng[16];
     String name[] = {"Srinagar","Delhi","Jaipur","Lucknow","Patna","Dispur","Gandhinagar","Bhopal","Kolkata","Mumbai",
     "Bhubaneswar","Roorkee","Hyderabad","Bengaluru","Chennai","Thiruvananthapuram"};
     int names[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
@@ -51,6 +57,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        final Context mCtx=this;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+               for (int i=0;i<16;i++)
+                   ll[i]=getLocationFromAddress(mCtx,name[i]);
+               Log.e("Whee", Arrays.toString(ll));
+            }
+        }).start();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -178,7 +193,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setLatLngBoundsForCameraTarget(BOUNDS_INDIA);
         mMap.setMinZoomPreference(5);
         LatLng Roorkee = new LatLng(29.8453, 77.8880);
-        mMap.addMarker(new MarkerOptions().position(Roorkee).title("Marker in Roorkee"));
+        mMap.addMarker(new MarkerOptions().position(Roorkee).title("Roorkee"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Roorkee));
 
     }
@@ -276,12 +291,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     final void dummy(String s1, String s2,String temp,String BP,boolean c1, boolean c2, boolean c3, boolean c4, boolean c5, boolean c6) {
-        Algorithms obj = new Algorithms(16);
+        obj = new Algorithms(16);
         double dist[] = new double[16];
-        int parent[] = new int[16];
+        final int parent[] = new int[16];
         obj = obj.go2(temp,BP,c1,c2,c3,c4,c5,c6);
         int x = index(s1);
-        int y = index(s2);
+        final int y = index(s2);
         if(x>=16||y>=16) {
             Log.e("Eh?","Your index function is wrong!");
             return;
@@ -299,18 +314,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 obj.shortestPath(x, y, dist, parent);
                 String s = dist[y] + "," + parent[y];
                 Log.e("Umm", s + "," + Arrays.toString(parent));
-                LinkIt(parent, y);
+                move=parent.clone();
+                destination=y;
+                distance=dist[y];
+                BackgroundTask backgroundTask=new BackgroundTask((BackgroundTask.AsyncResponse) this);
+                backgroundTask.execute("4",x+"",y+"");
+                mMap.clear();
+                LatLng Roorkee = new LatLng(29.8453, 77.8880);
+                mMap.addMarker(new MarkerOptions().position(Roorkee).title("Roorkee"));
+                LinkIt(parent,y);
+
             }
         } catch (Exception e) {
             Log.e("Testing...", e.getMessage());
         }
     }
 
+
+
     private void LinkIt(int par[], int x) {
+        //Log.e("Umm","Inside LinkIt :(");
         if (par[x] != x) {
             LatLng a1 , a2 ;
-            a1 = getLocationFromAddress(this, name[x]);
-            a2 = getLocationFromAddress(this, name[par[x]]);
+            if(ll[x]!=null)
+                a1=ll[x];
+            else
+                a1 = getLocationFromAddress(this, name[x]);
+            if(ll[par[x]]!=null)
+                a2=ll[par[x]];
+            else
+                a2 = getLocationFromAddress(this, name[par[x]]);
             try {
                 if (a1 != null && a2 != null) {
                     mMap.addPolyline(new PolylineOptions()
@@ -336,12 +369,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         str = "";
         String req = "";
         int temp[]=new int[arr.length];
-        for (int i = 0; i < arr.length; i++)
+        int i;
+        for (i = 0; i < arr.length; i++)
             temp[i]=index(arr[i]);
         Arrays.sort(temp);
-        req=Arrays.toString(temp);
+        for(i=0;i<arr.length-1;i++)
+            req=req+temp[i]+",";
+        req=req+temp[i];
+        /*req=Arrays.toString(temp);
         req=req.replace("[","");
-        req=req.replace("]","");
+        req=req.replace("]","");*/
         BackgroundTask backgroundTask = new BackgroundTask((Context) this);
         backgroundTask.execute("1", req);
     }
@@ -373,6 +410,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             topChannelMenu.add("Link 3");
         }
 
+    }
+
+    @Override
+    public void processFinish2(String s2) {
+        //Toast.makeText(getApplicationContext(),s2,Toast.LENGTH_SHORT).show();
+        s2=s2.substring(s2.indexOf(":")+1);
+        String arr[]=s2.split(",");
+        int paths[]=null;
+        double totalDist=0.0;
+        try {
+            if (arr.length > 1) {
+                paths = new int[arr.length];
+                int i;
+                for (i = 0; i < arr.length; i++)
+                    paths[i] = Integer.parseInt(arr[i]);
+                totalDist = obj.getDistance(paths);
+            /*if(totalDist>distance)
+                LinkIt(move, destination);
+            else
+                LinkIt(paths, destination);*/
+            }
+        }catch (Exception e)
+        {
+            Log.e("Whatever",e.getMessage());
+        }
+        //Log.e("Lots of stuff",arr.length+","+Arrays.toString(paths)+","+totalDist+","+distance+","+Arrays.toString(move));
     }
 }
 

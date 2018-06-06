@@ -33,6 +33,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
     }
     public interface AsyncResponse {
         void processFinish(String output);
+        void processFinish2(String s2);
     }
 
     public AsyncResponse delegate = null;
@@ -43,7 +44,6 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPreExecute() {
-
 
     }
 
@@ -68,6 +68,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
                 "&filter[value]=India&sort[]=date:desc&filter[field]=disaster&filter[value]=cycl" +
                 "one&filter[field]=date.created&filter[value][from]="+s3+"T00:00:00%2B00:00&filt" +
                 "er[value][to]="+s4+"T23:59:59%2B00:00&limit=50";
+        String fetch_url="http://almat.almafiesta.com/Kryptex5.0/fetch.php";
         if(params[0].equals("1")) {
             try {
                 String path = params [1];
@@ -150,6 +151,38 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
             }
             return links;
         }
+        else if(params[0].equals("4"))
+        {
+            try {
+                URL url = new URL(fetch_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                OutputStream OS = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
+                String data = URLEncoder.encode("one", "UTF-8") + "=" + URLEncoder.encode(params[1], "UTF-8")
+                        +"&"+URLEncoder.encode("two", "UTF-8") + "=" + URLEncoder.encode(params[2], "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                OS.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader (new InputStreamReader(inputStream,"iso-8859-1"));
+                String response = "";
+                String line = "";
+                while ((line = bufferedReader.readLine())!=null)
+                {
+                    response+= line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return "This is it:"+response;
+            }catch (Exception e)
+            {
+                Log.e("Okay",e.getMessage());
+            }
+        }
         return "Damn";
     }
     public boolean parse(String str)
@@ -175,6 +208,10 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
         else if(result.startsWith("9000"))
         {
             delegate.processFinish(result);
+        }
+        else if(result.startsWith("This is it:"))
+        {
+            delegate.processFinish2(result);
         }
         else
         {

@@ -340,4 +340,24 @@ class Algorithms
                 System.out.print(dist[i]+" ");
         //printSolution(dist);
     }
+    public double getDistance(int arr[])
+    {
+        int i,v1;
+        double w1,dist=0.0;
+        for(i=0;i<arr.length-1;i++) {
+            Iterator itr = adj[arr[i]].iterator();
+            while (itr.hasNext())
+            {
+                Pair temp2=(Pair)itr.next();
+                v1=temp2.v;
+                w1=temp2.w;
+                if(v1==arr[i+1])
+                {
+                    dist+=w1;
+                    break;
+                }
+            }
+        }
+        return dist;
+    }
 }
