@@ -3,6 +3,7 @@ package com.app.lenovo.summerproject;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -44,6 +45,9 @@ public class WeatherFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_main, container, false);
+
+        //Drawable drawable=getContext().getResources().getDrawable(R.drawable.w_four);
+        //rootView.setBackground(drawable);
         cityField = rootView.findViewById(R.id.city_field);
         cityField.setTextColor(Color.WHITE);
         updatedField = rootView.findViewById(R.id.updated_field);
@@ -134,6 +138,7 @@ public class WeatherFragment extends Fragment {
                 setWeatherIcon(details.getInt("id"),
                         json.getJSONObject("sys").getLong("sunrise") * 1000,
                         json.getJSONObject("sys").getLong("sunset") * 1000);
+
             }
             else
             {
@@ -162,22 +167,56 @@ public class WeatherFragment extends Fragment {
     private void setWeatherIcon(int actualId, long sunrise, long sunset){
         int id = actualId / 100;
         String icon = "";
+        View rootView=getView();
+        Drawable drawable=null;
+        Log.e("Okay",actualId+"");
+        actualId=800;/*Remove in actual implementation*/
         if(actualId == 800){
             long currentTime = new Date().getTime();
             if(currentTime>=sunrise && currentTime<sunset) {
+
+                cityField.setTextColor(Color.rgb(27,00,99));
+                updatedField.setTextColor(Color.rgb(27,00,99));
+                detailsField.setTextColor(Color.rgb(27,00,99));
+                currentTemperatureField.setTextColor(Color.rgb(27,00,99));
                 icon = getActivity().getString(R.string.weather_sunny);
+                drawable=getContext().getResources().getDrawable(R.drawable.w_three);
+                rootView.setBackground(drawable);
             } else {
                 icon = getActivity().getString(R.string.weather_clear_night);
+                drawable=getContext().getResources().getDrawable(R.drawable.w_four);
+                rootView.setBackground(drawable);
             }
         } else {
+
             switch(id) {
                 case 2 : icon = getActivity().getString(R.string.weather_thunder);
+                    drawable=getContext().getResources().getDrawable(R.drawable.w_seven);
+                    /*cityField.setTextColor(Color.rgb(27,00,99));
+                    updatedField.setTextColor(Color.rgb(27,00,99));
+                    detailsField.setTextColor(Color.rgb(27,00,99));
+                    currentTemperatureField.setTextColor(Color.rgb(27,00,99));*/
+                    rootView.setBackground(drawable);
                     break;
                 case 3 : icon = getActivity().getString(R.string.weather_drizzle);
+                    drawable=getContext().getResources().getDrawable(R.drawable.w_twelve);
+                    rootView.setBackground(drawable);
                     break;
                 case 7 : icon = getActivity().getString(R.string.weather_foggy);
+                    drawable=getContext().getResources().getDrawable(R.drawable.w_thirteen);
+                    cityField.setTextColor(Color.rgb(27,00,99));
+                    updatedField.setTextColor(Color.rgb(27,00,99));
+                    detailsField.setTextColor(Color.rgb(27,00,99));
+                    currentTemperatureField.setTextColor(Color.rgb(27,00,99));
+                    rootView.setBackground(drawable);
                     break;
                 case 8 : icon = getActivity().getString(R.string.weather_cloudy);
+                    drawable=getContext().getResources().getDrawable(R.drawable.w_eleven);
+                    cityField.setTextColor(Color.rgb(27,00,99));
+                    updatedField.setTextColor(Color.rgb(27,00,99));
+                    detailsField.setTextColor(Color.rgb(27,00,99));
+                    currentTemperatureField.setTextColor(Color.rgb(27,00,99));
+                    rootView.setBackground(drawable);
                     break;
                 case 6 : icon = getActivity().getString(R.string.weather_snowy);
                     break;
