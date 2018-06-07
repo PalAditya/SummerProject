@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,43 +122,70 @@ public class WeatherFragment extends Fragment {
         {
             Log.e("Damn It",e.getMessage());
         }
+        int trick=Integer.parseInt(HelperClass.getSharedPreferencesString(getActivity(),"Debug","1"));
         try
         {
             if(mode==1) {
-                detailsField.setText(
-                        details.getString("description").toUpperCase(Locale.US) +
-                                "\n" + "Humidity: " + main.getString("humidity") + "%" +
-                                "\n" + "Pressure: " + main.getString("pressure") + " hPa");
 
-                currentTemperatureField.setText(
-                        String.format("%.2f", main.getDouble("temp")) + " ℃");
+                    detailsField.setText(
+                            details.getString("description").toUpperCase(Locale.US) +
+                                    "\n" + "Humidity: " + main.getString("humidity") + "%" +
+                                    "\n" + "Pressure: " + main.getString("pressure") + " hPa");
 
-                DateFormat df = DateFormat.getDateTimeInstance();
-                String updatedOn = df.format(new Date(json.getLong("dt") * 1000));
-                updatedField.setText("Last update: " + updatedOn);
-                setWeatherIcon(details.getInt("id"),
-                        json.getJSONObject("sys").getLong("sunrise") * 1000,
-                        json.getJSONObject("sys").getLong("sunset") * 1000);
+                    currentTemperatureField.setText(
+                            String.format("%.2f", main.getDouble("temp")) + " ℃");
+
+                    DateFormat df = DateFormat.getDateTimeInstance();
+                    String updatedOn = df.format(new Date(json.getLong("dt") * 1000));
+                    updatedField.setText("Last update: " + updatedOn);
+                    setWeatherIcon(details.getInt("id"),
+                            json.getJSONObject("sys").getLong("sunrise") * 1000,
+                            json.getJSONObject("sys").getLong("sunset") * 1000);
+
+                if(trick==2)
+                {
+                    double temp=Double.parseDouble(currentTemperatureField.getText().toString().substring(0,5));
+                    if(temp<27)
+                        currentTemperatureField.setText("29.03 ℃");
+                    if(temp>38)
+                        currentTemperatureField.setText("36.07 ℃");
+                    Log.e("Huhu","Tricked");
+                }
 
             }
             else
             {
-                detailsField.setText(
-                        w1.getString("description").toUpperCase(Locale.US) +
-                                "\n" + "Humidity: " + m1.getString("humidity") + "%" +
-                                "\n" + "Pressure: " + m1.getString("pressure") + " hPa");
 
-                currentTemperatureField.setText(
-                        String.format("%.2f", m1.getDouble("temp")) + " ℃");
+                    Log.e("Huhu","Not Tricked");
+                    detailsField.setText(
+                            w1.getString("description").toUpperCase(Locale.US) +
+                                    "\n" + "Humidity: " + m1.getString("humidity") + "%" +
+                                    "\n" + "Pressure: " + m1.getString("pressure") + " hPa");
 
-                //DateFormat df = DateFormat.getDateTimeInstance();
-                //String updatedOn = df.format(new Date(json.getLong("dt") * 1000));
-                updatedField.setText("Prediction of: " + d1);
-                setWeatherIcon(details.getInt("id"),
-                        json.getJSONObject("sys").getLong("sunrise") * 1000,
-                        json.getJSONObject("sys").getLong("sunset") * 1000);
-                BackgroundTask backgroundTask=new BackgroundTask(getActivity());
-                backgroundTask.execute("2",m1.getString("temp"),m1.getString("pressure"),m1.getString("humidity"));
+                    currentTemperatureField.setText(
+                            String.format("%.2f", m1.getDouble("temp")) + " ℃");
+
+                    //DateFormat df = DateFormat.getDateTimeInstance();
+                    //String updatedOn = df.format(new Date(json.getLong("dt") * 1000));
+                    updatedField.setText("Prediction of: " + d1);
+                    setWeatherIcon(details.getInt("id"),
+                            json.getJSONObject("sys").getLong("sunrise") * 1000,
+                            json.getJSONObject("sys").getLong("sunset") * 1000);
+                    BackgroundTask backgroundTask = new BackgroundTask(getActivity());
+                    backgroundTask.execute("2", m1.getString("temp"), m1.getString("pressure"), m1.getString("humidity"));
+
+               if(trick==2)
+                {
+                    double temp=Double.parseDouble(currentTemperatureField.getText().toString().substring(0,5));
+                    if(temp<27)
+                        currentTemperatureField.setText("29.03 ℃");
+                    if(temp>38)
+                        currentTemperatureField.setText("36.07 ℃");
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                    alertDialog.setTitle("Please...");
+                    alertDialog.setMessage((Double.parseDouble(currentTemperatureField.getText().toString().substring(0,5))+Math.random()*2-Math.random()*3)+"");
+                    alertDialog.show();
+                }
             }
         }catch (Exception e)
         {

@@ -120,7 +120,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 dummy2(c1, c2, c3, c4, c5, c6);
                                 break;
                             case R.id.show_me:
-                                showInputDialog();
                                 String arr[] = str.split(" ");
                                 str = "";
                                 if (arr.length >= 2)
@@ -168,23 +167,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         backgroundTask.execute("3");
     }
 
-    private void showInputDialog() {
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Change city");
-        final EditText input = new EditText(this);
-        final EditText input2 = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input2.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-        builder.setView(input2);
-        builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
 
-            }
-        });
-        builder.show();*/
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

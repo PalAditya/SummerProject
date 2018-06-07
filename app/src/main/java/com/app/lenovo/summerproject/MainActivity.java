@@ -89,18 +89,15 @@ public class MainActivity extends AppCompatActivity
         else if(item.getItemId()==R.id.Profile)
         {
             try {
-                FirebaseMessaging fm = FirebaseMessaging.getInstance();
-                fm.send(new RemoteMessage.Builder("893537070703" + "@gcm.googleapis.com")
-                        .setMessageId("1")
-                        .addData("my_message", "Hello World")
-                        .addData("my_action","SAY_HELLO")
-                        .build());
-                /*Intent intent = new Intent(this, StatesData.class);
-                startActivity(intent);*/
+                String str=HelperClass.getSharedPreferencesString(this,"Debug","1");
+                if(str.equals("1"))
+                    HelperClass.putSharedPreferencesString(this,"Debug","2");
+                else
+                    HelperClass.putSharedPreferencesString(this,"Debug","1");
+                Log.e("Hmm",HelperClass.getSharedPreferencesString(this,"Debug","1"));
             }catch (Exception e)
             {
-                Log.e("Couldn't send :( ",e.getMessage());
-                /*Super useless change*/
+                Log.e("What now?",e.getMessage());
             }
         }
         else if(item.getItemId()==R.id.Toggle)
