@@ -27,6 +27,7 @@
     <string name="bp">Blood Pressure</string>
     <string name="date">Date…</string>
     <string name="range">"Nice temperatures…"</string>
+    <string name="Gender">Male?</string>
     <string name="other">Any other issues?(Be concise)</string>
     <string name="save">Save</string>
     <string name="edit">Edit</string>
@@ -36,5 +37,6 @@
     <string name="Go" tools:ignore="TypographyEllipsis">Go to Maps...</string>
     <string name="next">Next</string>
     <string name="start">start</string>
+    <string name="hobbies">Hobbies</string>
     <string name="cancel">Stop</string>
 </resources>

@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class ProfileHandling extends AppCompatActivity {
@@ -35,6 +37,7 @@ public class ProfileHandling extends AppCompatActivity {
         final CheckBox c4=findViewById(R.id.checkBox5);
         final CheckBox c5=findViewById(R.id.checkBox6);
         final CheckBox c6=findViewById(R.id.checkBox7);
+        final CheckBox c7=findViewById(R.id.checkBox8);
         c2.setChecked(sharedpreferences.getBoolean("c2",false));
         c3.setChecked(sharedpreferences.getBoolean("c3",false));
         c4.setChecked(sharedpreferences.getBoolean("c4",false));
@@ -49,6 +52,15 @@ public class ProfileHandling extends AppCompatActivity {
                 textView.setText(i2+"/"+i1+"/"+i);
             }
         });
+        Spinner dropdown = findViewById(R.id.spinner1);
+        String[] items = {"Nothing particular", "Gardening", "Jogging","Evening walk","Reading books",
+        "Cooking","Listening to music"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
+        Spinner dropdown2 = findViewById(R.id.spinner2);
+        String items2[]={"Cricket","Football","Tennis","Badminton","Golf"};
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items2);
+        dropdown2.setAdapter(adapter2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,6 +77,7 @@ public class ProfileHandling extends AppCompatActivity {
                     HelperClass.putSharedPreferencesBoolean(getApplicationContext(),"c4",c4.isChecked());
                     HelperClass.putSharedPreferencesBoolean(getApplicationContext(),"c5",c5.isChecked());
                     HelperClass.putSharedPreferencesBoolean(getApplicationContext(),"c6",c6.isChecked());
+                    HelperClass.putSharedPreferencesBoolean(getApplicationContext(),"c7",c7.isChecked());
                     editor=sharedpreferences.edit();
                     editor.putString("Bp",e1.getText().toString());
                     editor.putString("Temp",e2.getText().toString());
