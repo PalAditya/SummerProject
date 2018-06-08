@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -43,6 +44,7 @@ public class ProfileHandling extends AppCompatActivity {
         c4.setChecked(sharedpreferences.getBoolean("c4",false));
         c5.setChecked(sharedpreferences.getBoolean("c5",false));
         c6.setChecked(sharedpreferences.getBoolean("c6",false));
+        c7.setChecked(sharedpreferences.getBoolean("c7",false));
         final TextView textView=findViewById(R.id.textView);
         textView.setText(sharedpreferences.getString("Date",""));
         CalendarView calendarView=findViewById(R.id.calendarView);
@@ -61,6 +63,7 @@ public class ProfileHandling extends AppCompatActivity {
         String items2[]={"Cricket","Football","Tennis","Badminton","Golf"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items2);
         dropdown2.setAdapter(adapter2);
+        String s1="",s2="";
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,6 +91,7 @@ public class ProfileHandling extends AppCompatActivity {
                     editor.putBoolean("c4",c4.isChecked());
                     editor.putBoolean("c5",c5.isChecked());
                     editor.putBoolean("c6",c6.isChecked());
+                    editor.putBoolean("c7",c7.isChecked());
                     editor.putString("Date",textView.getText().toString());
                     editor.commit();
                     button.setText("edit");
@@ -100,6 +104,7 @@ public class ProfileHandling extends AppCompatActivity {
                     c4.setEnabled(false);
                     c5.setEnabled(false);
                     c6.setEnabled(false);
+                    c7.setEnabled(false);
                 }
                 else
                 {
@@ -112,6 +117,7 @@ public class ProfileHandling extends AppCompatActivity {
                     c4.setEnabled(true);
                     c5.setEnabled(true);
                     c6.setEnabled(true);
+                    c7.setEnabled(true);
                     button.setText("save");
                 }
             }
