@@ -35,7 +35,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 @SuppressWarnings("SuspiciousNameCombination")
@@ -166,9 +171,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         BackgroundTask backgroundTask=new BackgroundTask((BackgroundTask.AsyncResponse) this);
         backgroundTask.execute("3");
     }
-
-
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -178,30 +180,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng Roorkee = new LatLng(29.8453, 77.8880);
         mMap.addMarker(new MarkerOptions().position(Roorkee).title("Roorkee"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Roorkee));
-
     }
-
     public LatLng getLocationFromAddress(Context context, String strAddress) {
-
         Geocoder coder = new Geocoder(context);
         List<Address> address;
         LatLng p1 = null;
-
         try {
             address = coder.getFromLocationName(strAddress, 5);
             if (address == null) {
                 return null;
             }
-
             Address location = address.get(0);
             p1 = new LatLng(location.getLatitude(), location.getLongitude());
-
         } catch (IOException ex) {
             Log.e("Uff", ex.getMessage());
         }
         return p1;
     }
-
     private void dummy2(boolean c1, boolean c2, boolean c3, boolean c4, boolean c5, boolean c6)
     {
         final Button button=findViewById(R.id.cancel);
@@ -216,28 +211,86 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Drawable d4=getApplicationContext().getResources().getDrawable(R.drawable.four);
         Drawable d5=getApplicationContext().getResources().getDrawable(R.drawable.five);
         Drawable d6=getApplicationContext().getResources().getDrawable(R.drawable.six);
+        Drawable d7=getApplicationContext().getResources().getDrawable(R.drawable.seven);
+        Drawable d8=getApplicationContext().getResources().getDrawable(R.drawable.eight);
+        Drawable d9=getApplicationContext().getResources().getDrawable(R.drawable.nine);
+        Drawable d10=getApplicationContext().getResources().getDrawable(R.drawable.ten);
+        Drawable d11=getApplicationContext().getResources().getDrawable(R.drawable.eleven);
+        Drawable d12=getApplicationContext().getResources().getDrawable(R.drawable.twelve);
+        Drawable d13=getApplicationContext().getResources().getDrawable(R.drawable.thirteen);
+        Drawable d14=getApplicationContext().getResources().getDrawable(R.drawable.fourteen);
+        Drawable d15=getApplicationContext().getResources().getDrawable(R.drawable.fifteen);
+        Drawable d16=getApplicationContext().getResources().getDrawable(R.drawable.sixteen);
+        Drawable d17=getApplicationContext().getResources().getDrawable(R.drawable.seventeen);
         int duration=0;
-        anim.addFrame(d1,3000);
-        duration+=3000;
+        ArrayList<Drawable> al=new ArrayList<>(14);
+        al.add(d1);
+        if(HelperClass.getSharedPreferencesBoolean(this,"Rain",false))
+            al.add(d7);
+        if(HelperClass.getSharedPreferencesBoolean(this,"Hot",false)) {
+            al.add(d8);
+            al.add(d17);
+            if(HelperClass.getSharedPreferencesString(this,"Sport","").equals("Football")
+                    ||HelperClass.getSharedPreferencesString(this,"Sport","").equals("Tennis")||
+                    HelperClass.getSharedPreferencesString(this,"Sport","").equals("Cricket"))
+                al.add(d16);
+        }
+        if(HelperClass.getSharedPreferencesString(this,"Sport","").equals("Football")
+                ||HelperClass.getSharedPreferencesString(this,"Sport","").equals("Cricket"))
+            al.add(d17);
+        Calendar currentTime = Calendar.getInstance();
+        currentTime.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+        int x=currentTime.get(Calendar.HOUR_OF_DAY);
+        if(x>17&&x<19&&!HelperClass.getSharedPreferencesBoolean(this,"Hot",false)) {
+            al.add(d9);
+
+        }
+        if(HelperClass.getSharedPreferencesBoolean(this,"Wind",false)) {
+            al.add(d10);
+            if(HelperClass.getSharedPreferencesString(this,"Sport","").equals("Badminton")
+                ||HelperClass.getSharedPreferencesString(this,"Sport","").equals("Golf"))
+                al.add(d16);
+        }
+        if(HelperClass.getSharedPreferencesBoolean(this,"Humid",false))
+            al.add(d13);
+        if(x<=12&&HelperClass.getSharedPreferencesBoolean(this,"Hot",false)&&Math.random()>0.75)
+            al.add(d14);
+        String hobby=HelperClass.getSharedPreferencesString(this,"Hobby","");
+        if(hobby.equals("Evening Walk")&&!HelperClass.getSharedPreferencesBoolean(this,"Hot",false))
+            al.add(d11);
+        if(hobby.equals("Jogging")||hobby.equals("Gardening")&&!HelperClass.getSharedPreferencesBoolean(this,"Hot",false))
+            al.add(d12);
         if(c4||c5) {
-            anim.addFrame(d5, 3000);
-            duration+=3000;
+            al.add(d5);
         }
         if(c6) {
-            anim.addFrame(d6, 3000);
-            duration+=3000;
+            al.add(d6);
         }
         if(c2) {
-            anim.addFrame(d2, 3000);
-            duration+=3000;
+            al.add(d2);
         }
         if(c3) {
-            anim.addFrame(d3, 3000);
-            duration+=3000;
+            al.add(d3);
         }
         if(c1) {
-            anim.addFrame(d4, 3000);
-            duration+=3000;
+            al.add(d4);
+        }
+        Log.e("Size",al.size()+"");
+        Collections.shuffle(al);
+        if(al.size()>=4)
+        {
+            anim.addFrame(al.get(0),3000);
+            anim.addFrame(al.get(1),3000);
+            anim.addFrame(al.get(2),3000);
+            anim.addFrame(al.get(3),3000);
+            duration=12000;
+        }
+        else {
+            Iterator iterator = al.iterator();
+            while (iterator.hasNext()) {
+                duration += 3000;
+                anim.addFrame((Drawable) iterator.next(), 3000);
+            }
         }
         anim.start();
         anim.setAlpha(230);
@@ -405,7 +458,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void processFinish2(String s2) {
-        //Toast.makeText(getApplicationContext(),s2,Toast.LENGTH_SHORT).show();
         s2=s2.substring(s2.indexOf(":")+1);
         String arr[]=s2.split(",");
         int paths[]=null;
@@ -426,7 +478,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             Log.e("Whatever",e.getMessage());
         }
-        //Log.e("Lots of stuff",arr.length+","+Arrays.toString(paths)+","+totalDist+","+distance+","+Arrays.toString(move));
     }
 }
 

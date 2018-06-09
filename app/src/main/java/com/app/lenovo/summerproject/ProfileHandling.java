@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -54,15 +55,22 @@ public class ProfileHandling extends AppCompatActivity {
                 textView.setText(i2+"/"+i1+"/"+i);
             }
         });
-        Spinner dropdown = findViewById(R.id.spinner1);
-        String[] items = {"Nothing particular", "Gardening", "Jogging","Evening walk","Reading books",
+        final Spinner dropdown = findViewById(R.id.spinner1);
+        String[] items = {"Nothing particular","Gardening", "Jogging","Evening walk","Reading books",
         "Cooking","Listening to music"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
-        Spinner dropdown2 = findViewById(R.id.spinner2);
-        String items2[]={"Cricket","Football","Tennis","Badminton","Golf"};
+        final Spinner dropdown2 = findViewById(R.id.spinner2);
+        String items2[]={"None","Cricket","Football","Tennis","Badminton","Golf"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items2);
         dropdown2.setAdapter(adapter2);
+        try {
+            dropdown.setSelection(adapter.getPosition(sharedpreferences.getString("Hobby", "Nothing particular")));
+            dropdown2.setSelection(adapter2.getPosition(sharedpreferences.getString("Sport", "None")));
+        }catch(Exception e)
+        {
+            Log.e("Spinner",e.getMessage());
+        }
         String s1="",s2="";
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +89,8 @@ public class ProfileHandling extends AppCompatActivity {
                     HelperClass.putSharedPreferencesBoolean(getApplicationContext(),"c5",c5.isChecked());
                     HelperClass.putSharedPreferencesBoolean(getApplicationContext(),"c6",c6.isChecked());
                     HelperClass.putSharedPreferencesBoolean(getApplicationContext(),"c7",c7.isChecked());
+                    HelperClass.putSharedPreferencesString(getApplicationContext(),"Hobby",dropdown.getSelectedItem().toString());
+                    HelperClass.putSharedPreferencesString(getApplicationContext(),"Sport",dropdown2.getSelectedItem().toString());
                     editor=sharedpreferences.edit();
                     editor.putString("Bp",e1.getText().toString());
                     editor.putString("Temp",e2.getText().toString());
@@ -93,6 +103,9 @@ public class ProfileHandling extends AppCompatActivity {
                     editor.putBoolean("c6",c6.isChecked());
                     editor.putBoolean("c7",c7.isChecked());
                     editor.putString("Date",textView.getText().toString());
+                    editor.putString("Hobby",dropdown.getSelectedItem().toString());
+                    editor.putString("Sport",dropdown2.getSelectedItem().toString());
+                    Log.e("Spinners: ",dropdown.getSelectedItem().toString()+","+dropdown2.getSelectedItem().toString());
                     editor.commit();
                     button.setText("edit");
                     e1.setEnabled(false);
@@ -105,6 +118,8 @@ public class ProfileHandling extends AppCompatActivity {
                     c5.setEnabled(false);
                     c6.setEnabled(false);
                     c7.setEnabled(false);
+                    dropdown.setEnabled(false);
+                    dropdown2.setEnabled(false);
                 }
                 else
                 {
@@ -118,6 +133,8 @@ public class ProfileHandling extends AppCompatActivity {
                     c5.setEnabled(true);
                     c6.setEnabled(true);
                     c7.setEnabled(true);
+                    dropdown.setEnabled(true);
+                    dropdown2.setEnabled(true);
                     button.setText("save");
                 }
             }

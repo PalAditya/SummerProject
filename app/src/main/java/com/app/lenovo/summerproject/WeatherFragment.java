@@ -86,7 +86,7 @@ public class WeatherFragment extends Fragment {
     }
     @SuppressLint("SetTextI18n")
     private void renderWeather(JSONObject json,JSONObject json2,final int mode){
-        JSONObject details=null,main=null,lists=null,m1=null,w1=null;
+        JSONObject details=null,main=null,lists=null,m1=null,w1=null,wind=null,wind2=null;
         String d1="";
         try {
             cityField.setText(json.getString("name").toUpperCase(Locale.US) +
@@ -94,6 +94,7 @@ public class WeatherFragment extends Fragment {
 
             details = json.getJSONArray("weather").getJSONObject(0);
              main = json.getJSONObject("main");
+             wind=json.getJSONObject("wind");
         }catch(Exception e){
             Log.e("SimpleWeather", "One or more fields not found in the JSON data");
         }
@@ -115,6 +116,7 @@ public class WeatherFragment extends Fragment {
                 m1=lists.getJSONObject("main");
                 w1=lists.getJSONArray("weather").getJSONObject(0);
                 d1=lists.getString("dt_txt");
+                wind2=json.getJSONObject("wind");
                 if(Integer.parseInt(d1.substring(d1.indexOf(" ")+1,d1.indexOf(":")))>x)
                     break;
             }
@@ -130,7 +132,8 @@ public class WeatherFragment extends Fragment {
                     detailsField.setText(
                             details.getString("description").toUpperCase(Locale.US) +
                                     "\n" + "Humidity: " + main.getString("humidity") + "%" +
-                                    "\n" + "Pressure: " + main.getString("pressure") + " hPa");
+                                    "\n" + "Pressure: " + main.getString("pressure") + " hPa"+
+                    "\n"+"Wind: "+wind.getString("speed")+ " knots");
 
                     currentTemperatureField.setText(
                             String.format("%.2f", main.getDouble("temp")) + " ℃");
@@ -147,11 +150,16 @@ public class WeatherFragment extends Fragment {
                     double temp=Double.parseDouble(currentTemperatureField.getText().toString().substring(0,5));
                     if(temp<27)
                         currentTemperatureField.setText("29.03 ℃");
-                    if(temp>38)
-                        currentTemperatureField.setText("36.07 ℃");
+                    if(temp>40)
+                        currentTemperatureField.setText("38.07 ℃");
                     Log.e("Huhu","Tricked");
                 }
-
+                if(Double.parseDouble(currentTemperatureField.getText().toString().substring(0,5))>35)
+                    HelperClass.putSharedPreferencesBoolean(getContext(),"Hot",true);
+                if(wind.getDouble("speed")>15)
+                    HelperClass.putSharedPreferencesBoolean(getContext(),"Wind",true);
+                if(main.getDouble("humidity")>80)
+                    HelperClass.putSharedPreferencesBoolean(getContext(),"Humid",true);
             }
             else
             {
@@ -160,7 +168,8 @@ public class WeatherFragment extends Fragment {
                     detailsField.setText(
                             w1.getString("description").toUpperCase(Locale.US) +
                                     "\n" + "Humidity: " + m1.getString("humidity") + "%" +
-                                    "\n" + "Pressure: " + m1.getString("pressure") + " hPa");
+                                    "\n" + "Pressure: " + m1.getString("pressure") + " hPa"+
+                                    "\n"+"Wind: "+wind2.getString("speed")+ " knots");
 
                     currentTemperatureField.setText(
                             String.format("%.2f", m1.getDouble("temp")) + " ℃");
@@ -222,6 +231,7 @@ public class WeatherFragment extends Fragment {
             switch(id) {
                 case 2 : icon = getActivity().getString(R.string.weather_thunder);
                     drawable=getContext().getResources().getDrawable(R.drawable.w_seven);
+                    HelperClass.putSharedPreferencesBoolean(getContext(),"Rain",true);
                     /*cityField.setTextColor(Color.rgb(27,00,99));
                     updatedField.setTextColor(Color.rgb(27,00,99));
                     detailsField.setTextColor(Color.rgb(27,00,99));
@@ -230,6 +240,7 @@ public class WeatherFragment extends Fragment {
                     break;
                 case 3 : icon = getActivity().getString(R.string.weather_drizzle);
                     drawable=getContext().getResources().getDrawable(R.drawable.w_twelve);
+                    HelperClass.putSharedPreferencesBoolean(getContext(),"Rain",true);
                     rootView.setBackground(drawable);
                     break;
                 case 7 : icon = getActivity().getString(R.string.weather_foggy);
