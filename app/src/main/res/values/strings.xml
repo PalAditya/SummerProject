@@ -26,6 +26,7 @@
     <string name="Recover">Rest recommended?</string>
     <string name="bp">Blood Pressure</string>
     <string name="date">Date…</string>
+    <string name="Service">ServerLoadReduction</string>
     <string name="range">"Nice temperatures…"</string>
     <string name="Gender">Male?</string>
     <string name="other">Any other issues?(Be concise)</string>

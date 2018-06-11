@@ -68,6 +68,12 @@
             </intent-filter>
         </service>
         <service android:name=".MyJobService"></service>
+        <service
+            android:name=".ReduceServerLoad"
+            android:icon="@drawable/fui_ic_mail_white_24dp"
+            android:label="@string/Service"
+            >
+        </service>
     </application>
 
 </manifest>

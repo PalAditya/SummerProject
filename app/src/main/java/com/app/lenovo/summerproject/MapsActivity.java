@@ -345,16 +345,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     parent[3] = 3;
                     parent[8] = 4;
                     parent[4] = 3;
+                    mMap.clear();
                     LinkIt(parent, 8);
+                    return;
                 }
                 if ((x == 10 && y == 15) || (x == 15 && y == 10)) {
                     parent[10] = 10;
                     parent[13] = 10;
                     parent[15] = 13;
+                    mMap.clear();
                     LinkIt(parent, 15);
+                    return;
                 }
             }
-            else {
+
                 obj.shortestPath(x, y, dist, parent);
                 String s = dist[y] + "," + parent[y];
                 Log.e("Umm", s + "," + Arrays.toString(parent));
@@ -368,7 +372,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.addMarker(new MarkerOptions().position(Roorkee).title("Roorkee"));
                 LinkIt(parent,y);
 
-            }
         } catch (Exception e) {
             Log.e("Testing...", e.getMessage());
         }

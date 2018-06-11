@@ -1,4 +1,6 @@
 package com.app.lenovo.summerproject;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -18,6 +20,8 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -41,9 +45,13 @@ public class MainActivity extends AppCompatActivity
                     .show();
         }
         setContentView(R.layout.activity_weather);
-        //Drawable d4=getApplicationContext().getResources().getDrawable(R.drawable.w_four);
-        //RelativeLayout rl=findViewById(R.id.rlayout);
-        //rl.setBackground(d4);
+        Intent i = new Intent(this, ReduceServerLoad.class);
+        Calendar time=Calendar.getInstance();
+        AlarmManager alarmM=(AlarmManager)getSystemService(ALARM_SERVICE);
+        PendingIntent pending= PendingIntent.getService(getApplicationContext(),0,i,0);
+        //alarmM.cancel(pending);
+        alarmM.setRepeating(AlarmManager.RTC_WAKEUP, time.getTimeInMillis()+3000*10,1000*60*180*3, pending);
+        Toast.makeText(this, "STARTING", Toast.LENGTH_LONG).show();
         Bundle bundle=new Bundle();
         bundle.putInt("mode",1);
         WeatherFragment weatherFragment=new WeatherFragment();
