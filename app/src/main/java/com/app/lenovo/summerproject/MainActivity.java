@@ -82,6 +82,10 @@ public class MainActivity extends AppCompatActivity
             PendingIntent pending = PendingIntent.getService(getApplicationContext(), 0, i, 0);
             alarmM.setRepeating(AlarmManager.RTC_WAKEUP, time.getTimeInMillis() + 3000 * 10, 1000 * 60 * 180 * 3, pending);
         }
+        else
+        {
+            Log.e("Check","2");
+        }
         Bundle bundle=new Bundle();
         bundle.putInt("mode",1);
         WeatherFragment weatherFragment=new WeatherFragment();

@@ -16,13 +16,17 @@ public class ReduceServerLoad extends Service {
     double data[][]=new double[16][3];
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //Toast.makeText(getApplicationContext(),"Still up",Toast.LENGTH_LONG).show();
+        return Service.START_STICKY;
+    }
+    @Override
+    public void onCreate()
+    {
         try {
             int i=0;
             for(i=0;i<4;i++) {
                 JSONObject json=null;
                 try {
-                     json= RemoteFetch.getJSON(getBaseContext(), name[i] + ",IN", 1);
+                    json= RemoteFetch.getJSON(getBaseContext(), name[i] + ",IN", 1);
                 }catch(Exception e)
                 {
                     Log.e("Hmm",e.getMessage());
@@ -36,10 +40,7 @@ public class ReduceServerLoad extends Service {
         }catch(Exception e){
             Log.e("Error", e.getMessage());
         }
-        return Service.START_NOT_STICKY;
-
     }
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
