@@ -35,9 +35,18 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
         void processFinish(String output);
         void processFinish2(String s2);
     }
+    int index(String s) {
+        Log.e("s",s);
+        s=s.substring(0,s.length()-3);
+        for (int i = 0; i < 16; i++)
+            if (name[i].equals(s))
+                return i;
+        return 100;
+    }
 
     public AsyncResponse delegate = null;
-
+    String name[] = {"Srinagar","Delhi","Jaipur","Lucknow","Patna","Dispur","Gandhinagar","Bhopal","Kolkata","Mumbai",
+            "Bhubaneswar","Roorkee","Hyderabad","Bengaluru","Chennai","Thiruvananthapuram"};
     public BackgroundTask(AsyncResponse delegate){
         this.delegate = delegate;
     }
@@ -99,11 +108,20 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
             try {
                 URL url = new URL(theta_url);
                 BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-                String s1[]=in.readLine().split(" ");
-                String s2[]=in.readLine().split(" ");
-                double predict=Double.parseDouble(s1[0])*Double.parseDouble(params[1])+Double.parseDouble(s1[1])*Double.parseDouble(params[2])*0.76+
-                Double.parseDouble(s1[2])*Double.parseDouble(params[3])+Double.parseDouble(s1[3])*Double.parseDouble(s2[0])+
-                Double.parseDouble(s1[4])*Double.parseDouble(s2[1]);
+                double predict=0.0;
+                int index=index(params[4]);
+                if(index==100)
+                    return "Sorry,city not in Database";
+                Log.e("Eh",index+"");
+                for(int i=0;i<=index;i++) {
+                    String s1[] = in.readLine().split(" ");
+                    String s2[] = in.readLine().split(" ");
+                    String s5=in.readLine();
+                    //Log.e("Umm",Arrays.toString(s1)+","+Arrays.toString(s2)+","+s5);
+                    predict = Double.parseDouble(s1[0]) * Double.parseDouble(params[1]) + Double.parseDouble(s1[1]) * Double.parseDouble(params[2]) * 0.76 +
+                            Double.parseDouble(s1[2]) * Double.parseDouble(params[3]) + Double.parseDouble(s1[3]) * Double.parseDouble(s2[0]) +
+                            Double.parseDouble(s1[4]) * Double.parseDouble(s2[1]);
+                }
                 return predict+"";
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -142,8 +160,6 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
                     }
                     if(index==3)
                         break;
-                    //Log.e("Array?", Arrays.toString(arr));
-
                 }
             }catch (Exception e)
             {

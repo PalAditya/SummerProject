@@ -77,7 +77,7 @@ public class WeatherFragment extends Fragment {
                 } else {
                     handler.post(new Runnable(){
                         public void run(){
-                            renderWeather(json,json2,mode);
+                            renderWeather(json,json2,mode,city);
                         }
                     });
                 }
@@ -85,7 +85,7 @@ public class WeatherFragment extends Fragment {
         }.start();
     }
     @SuppressLint("SetTextI18n")
-    private void renderWeather(JSONObject json,JSONObject json2,final int mode){
+    private void renderWeather(JSONObject json,JSONObject json2,final int mode,final String city){
         JSONObject details=null,main=null,lists=null,m1=null,w1=null,wind=null,wind2=null;
         String d1="";
         try {
@@ -182,7 +182,7 @@ public class WeatherFragment extends Fragment {
                             json.getJSONObject("sys").getLong("sunset") * 1000);
                     if(trick==1) {
                         BackgroundTask backgroundTask = new BackgroundTask(getActivity());
-                        backgroundTask.execute("2", m1.getString("temp"), m1.getString("pressure"), m1.getString("humidity"));
+                        backgroundTask.execute("2", m1.getString("temp"), m1.getString("pressure"), m1.getString("humidity"),city);
                     }
 
                if(trick==2)

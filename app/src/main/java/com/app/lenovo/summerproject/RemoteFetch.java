@@ -17,15 +17,15 @@ public class RemoteFetch {
     private static final String OPEN_WEATHER_MAP_API_2 =
             "http://api.openweathermap.org/data/2.5/forecast?q=%s&units=metric";
 
-    public static JSONObject getJSON(Context context, String city, int mode){
+    public static JSONObject getJSON(Context context, String city, int mode) {
         try {
-            URL url=null;
-            if(mode==1)
+            URL url = null;
+            if (mode == 1)
                 url = new URL(String.format(OPEN_WEATHER_MAP_API, city));
             else
-                url=new URL(String.format(OPEN_WEATHER_MAP_API_2, city));
+                url = new URL(String.format(OPEN_WEATHER_MAP_API_2, city));
             HttpURLConnection connection =
-                    (HttpURLConnection)url.openConnection();
+                    (HttpURLConnection) url.openConnection();
 
             connection.addRequestProperty("x-api-key",
                     context.getString(R.string.open_weather_maps_app_id));
@@ -34,31 +34,28 @@ public class RemoteFetch {
                     new InputStreamReader(connection.getInputStream()));
 
             StringBuffer json = new StringBuffer(1024);
-            String tmp="";
-            if(mode==1) {
+            String tmp = "";
+            if (mode == 1) {
                 while ((tmp = reader.readLine()) != null)
                     json.append(tmp).append("\n");
                 reader.close();
-            }
-            else
-            {
+            } else {
                 while ((tmp = reader.readLine()) != null) {
                     json.append(tmp).append("\n");
 
                 }
                 reader.close();
             }
-
             JSONObject data = new JSONObject(json.toString());
 
-            // This value will be 404 if the request was not
-            // successful
-            if(data.getInt("cod") != 200){
+            if (data.getInt("cod") != 200) {
+                Log.e("Uh", "Here at least");
                 return null;
             }
 
             return data;
-        }catch(Exception e){
+        } catch (Exception e) {
+            Log.e("Oaf", e.getMessage());
             return null;
         }
     }

@@ -74,7 +74,7 @@ class Algorithms
     public Algorithms go2(String temp,String BP,boolean c1, boolean c2, boolean c3, boolean c4, boolean c5, boolean c6)
     {
         //Rows are cities, columns are Temperatures and Humidity. Ignore column 3 for now
-        double data[][]={{24.3,56.3,20},{24.3,45.5,36},{24.3,45,25},{24.3,92,28.4},{46.2,60,25.7},{64.3,30.5,34.8},{24.3,60,42.4},{24.3,60,65.6},
+        double data[][]={{24.3,56.3,20},{24.3,45.5,36},{24.3,45,25},{24.3,92,28.4},{46.2,60,25.7},{34.3,30.5,34.8},{24.3,60,42.4},{24.3,60,65.6},
                 {44.3,60,25.8},{34.3,40.7,36.4},{24.3,36.8,36.8},{44.3,36,24},{24.3,60,15},{24.3,49,17.6},{24.3,60,26.3},{34.3,60,32.7}};
         Algorithms g=new Algorithms(16);
         int low=Integer.parseInt(temp.substring(0,2));

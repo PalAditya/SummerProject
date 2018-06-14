@@ -320,6 +320,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     int index(String s) {
+
         for (int i = 0; i < 16; i++)
             if (name[i].equals(s))
                 return i;

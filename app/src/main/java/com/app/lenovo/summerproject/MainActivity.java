@@ -1,4 +1,5 @@
 package com.app.lenovo.summerproject;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -36,6 +37,15 @@ public class MainActivity extends AppCompatActivity
         else
             return false;
     }
+    private boolean isServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,11 +76,12 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_weather);
         Intent i = new Intent(this, ReduceServerLoad.class);
         Calendar time=Calendar.getInstance();
-        AlarmManager alarmM=(AlarmManager)getSystemService(ALARM_SERVICE);
-        PendingIntent pending= PendingIntent.getService(getApplicationContext(),0,i,0);
-        alarmM.setRepeating(AlarmManager.RTC_WAKEUP, time.getTimeInMillis()+3000*10,1000*60*180*3, pending);
-        //Toast.makeText(getApplicationContext(),"Starting",Toast.LENGTH_SHORT).show();
-        //Come on
+        if(!isServiceRunning(ReduceServerLoad.class)) {
+            Log.e("Check","1");
+            AlarmManager alarmM = (AlarmManager) getSystemService(ALARM_SERVICE);
+            PendingIntent pending = PendingIntent.getService(getApplicationContext(), 0, i, 0);
+            alarmM.setRepeating(AlarmManager.RTC_WAKEUP, time.getTimeInMillis() + 3000 * 10, 1000 * 60 * 180 * 3, pending);
+        }
         Bundle bundle=new Bundle();
         bundle.putInt("mode",1);
         WeatherFragment weatherFragment=new WeatherFragment();
