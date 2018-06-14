@@ -1,9 +1,11 @@
 package com.app.lenovo.summerproject;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,15 +22,27 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
 {
     int SIGN_IN_REQUEST_CODE=200;
+    public boolean isNetworkAvailable(Context context) {
+        ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(conMan.getActiveNetworkInfo() != null && conMan.getActiveNetworkInfo().isConnected())
+            return true;
+        else
+            return false;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!isNetworkAvailable(this)) {
+            Toast.makeText(this,"We need a working Internet connection",Toast.LENGTH_LONG).show();
+            finish(); 
+        }
         if(FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivityForResult(
                     AuthUI.getInstance()
@@ -44,14 +58,17 @@ public class MainActivity extends AppCompatActivity
                     Toast.LENGTH_LONG)
                     .show();
         }
+        /*if (LeakCanary.isInAnalyzerProcess(this))
+        {
+            return;
+        }
+        LeakCanary.install(getApplication());*/
         setContentView(R.layout.activity_weather);
         Intent i = new Intent(this, ReduceServerLoad.class);
         Calendar time=Calendar.getInstance();
         AlarmManager alarmM=(AlarmManager)getSystemService(ALARM_SERVICE);
         PendingIntent pending= PendingIntent.getService(getApplicationContext(),0,i,0);
-        //alarmM.cancel(pending);
         alarmM.setRepeating(AlarmManager.RTC_WAKEUP, time.getTimeInMillis()+3000*10,1000*60*180*3, pending);
-        Toast.makeText(this, "STARTING", Toast.LENGTH_LONG).show();
         Bundle bundle=new Bundle();
         bundle.putInt("mode",1);
         WeatherFragment weatherFragment=new WeatherFragment();
@@ -62,10 +79,23 @@ public class MainActivity extends AppCompatActivity
 
     }
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+    }
+    public void onResume()
+    {
+        super.onResume();
+    }
+    @Override
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.e("Uh",requestCode+","+resultCode);
         if(requestCode == SIGN_IN_REQUEST_CODE) {
             if(resultCode == RESULT_OK) {
                 Toast.makeText(this,

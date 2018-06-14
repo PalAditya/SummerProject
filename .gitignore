@@ -4,6 +4,7 @@
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
+*.json
 .DS_Store
 /build
 /captures

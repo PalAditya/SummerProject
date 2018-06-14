@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "893537070703",
+    "firebase_url": "https://summerproject-58551.firebaseio.com",
+    "project_id": "summerproject-58551",
+    "storage_bucket": "summerproject-58551.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893537070703:android:1eeb83ea2f96718d",
+        "android_client_info": {
+          "package_name": "com.app.lenovo.summerproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893537070703-vl5pagqhi4d4f8vpusiekb0d9nho7khv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.lenovo.summerproject",
+            "certificate_hash": "ecf7c61e58dd7a53d7d8a916fa35bfd50276166f"
+          }
+        },
+        {
+          "client_id": "893537070703-tfeb5f7f14cp5ioo39b78fkiqr0chnah.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "893537070703-tfeb5f7f14cp5ioo39b78fkiqr0chnah.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVNi6o7ZaNCx3PwCNa115ws9b1vQEDXZI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893537070703-tfeb5f7f14cp5ioo39b78fkiqr0chnah.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
