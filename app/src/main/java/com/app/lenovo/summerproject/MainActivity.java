@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity
         PendingIntent pending= PendingIntent.getService(getApplicationContext(),0,i,0);
         alarmM.setRepeating(AlarmManager.RTC_WAKEUP, time.getTimeInMillis()+3000*10,1000*60*180*3, pending);
         //Toast.makeText(getApplicationContext(),"Starting",Toast.LENGTH_SHORT).show();
+        //Come on
         Bundle bundle=new Bundle();
         bundle.putInt("mode",1);
         WeatherFragment weatherFragment=new WeatherFragment();
@@ -77,7 +78,6 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.container,weatherFragment).commit();
         }
-
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
