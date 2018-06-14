@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         if(!isNetworkAvailable(this)) {
             Toast.makeText(this,"We need a working Internet connection",Toast.LENGTH_LONG).show();
-            finish(); 
+            finish();
         }
         if(FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivityForResult(
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity
         AlarmManager alarmM=(AlarmManager)getSystemService(ALARM_SERVICE);
         PendingIntent pending= PendingIntent.getService(getApplicationContext(),0,i,0);
         alarmM.setRepeating(AlarmManager.RTC_WAKEUP, time.getTimeInMillis()+3000*10,1000*60*180*3, pending);
+        //Toast.makeText(getApplicationContext(),"Starting",Toast.LENGTH_SHORT).show();
         Bundle bundle=new Bundle();
         bundle.putInt("mode",1);
         WeatherFragment weatherFragment=new WeatherFragment();
