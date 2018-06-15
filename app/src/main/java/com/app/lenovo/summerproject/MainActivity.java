@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity
         }
         LeakCanary.install(getApplication());*/
         setContentView(R.layout.activity_weather);
+
         Intent i = new Intent(this, ReduceServerLoad.class);
         Calendar time=Calendar.getInstance();
         if(!isServiceRunning(ReduceServerLoad.class)) {
@@ -106,6 +107,15 @@ public class MainActivity extends AppCompatActivity
     public void onResume()
     {
         super.onResume();
+        try
+        {
+            String str=getIntent().getStringExtra("City");
+            Log.e("Eh",str);
+            changeCity(str);
+        }catch (Exception e)
+        {
+            Log.e("Oh",e.getMessage());
+        }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode,

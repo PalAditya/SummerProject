@@ -77,8 +77,15 @@ class Algorithms
         double data[][]={{24.3,56.3,20},{24.3,45.5,36},{24.3,45,25},{24.3,92,28.4},{46.2,60,25.7},{34.3,30.5,34.8},{24.3,60,42.4},{24.3,60,65.6},
                 {44.3,60,25.8},{34.3,40.7,36.4},{24.3,36.8,36.8},{44.3,36,24},{24.3,60,15},{24.3,49,17.6},{24.3,60,26.3},{34.3,60,32.7}};
         Algorithms g=new Algorithms(16);
-        int low=Integer.parseInt(temp.substring(0,2));
-        int high=Integer.parseInt(temp.substring(3));
+        int low=0,high=0;
+        try {
+            low = Integer.parseInt(temp.substring(0, 2));
+            high = Integer.parseInt(temp.substring(3));
+        }catch (Exception e)
+        {
+            low=25;
+            high=35;
+        }
         //Add for Kolkata[8]
         g.addEdge(8,0,2289.8);
         g.addEdge(8,1,1490.9);

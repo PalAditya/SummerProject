@@ -92,8 +92,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        //View view=navigationView.inflateHeaderView(R.layout.header_view);
         navigationView.setItemIconTintList(null);
+        navigationView.inflateHeaderView(R.layout.header_view);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -135,6 +135,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 break;
                             case R.id.Temp:
                                 Toast.makeText(getApplicationContext(), "Temperatures...", Toast.LENGTH_SHORT).show();
+                                String arr2[] = str.split(" ");
+                                if(arr2.length>=1)
+                                    dummy5(arr2[arr2.length-1]);
                                 break;
                             case R.id.add_mine:
                                 Toast.makeText(getApplicationContext(), "My suggestion", Toast.LENGTH_LONG).show();
@@ -165,6 +168,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         return true;
                     }
                 });
+    }
+
+    private void dummy5(String str) {
+        Intent intent=new Intent(this,MainActivity.class);
+        intent.putExtra("City",str+",IN");
+        startActivity(intent);
     }
 
     private void dummy4() {
@@ -320,20 +329,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     int index(String s) {
-
         for (int i = 0; i < 16; i++)
             if (name[i].equals(s))
                 return i;
         return 100;
     }
-
     final void dummy(String s1, String s2,String temp,String BP,boolean c1, boolean c2, boolean c3, boolean c4, boolean c5, boolean c6) {
         obj = new Algorithms(16);
         double dist[] = new double[16];
         final int parent[] = new int[16];
         obj = obj.go2(temp,BP,c1,c2,c3,c4,c5,c6);
         int x = index(s1);
-        final int y = index(s2);
+        int y = index(s2);
         if(x>=16||y>=16) {
             Log.e("Eh?","Your index function is wrong!");
             return;
