@@ -1,4 +1,6 @@
 package com.app.lenovo.summerproject;
+import android.util.Log;
+
 import java.util.*;
 class Algorithms
 {
@@ -71,11 +73,11 @@ class Algorithms
             }
         }
     }
-    public Algorithms go2(String temp,String BP,boolean c1, boolean c2, boolean c3, boolean c4, boolean c5, boolean c6)
+    public Algorithms go2(String temp,String BP,boolean c1, boolean c2, boolean c3, boolean c4, boolean c5, boolean c6,String date)
     {
-        //Rows are cities, columns are Temperatures and Humidity. Ignore column 3 for now
+        //Rows are cities, columns are Temperatures and Humidity. Ignore column 3 for now. 4 is comfort locations
         double data[][]={{24.3,56.3,20,2},{24.3,45.5,36,3},{24.3,45,25,4},{24.3,92,28.4,2},{46.2,60,25.7,1},{34.3,30.5,34.8,5},{24.3,60,42.4,3}
-        ,{24.3,60,65.6,6},{44.3,60,25.8,7},{34.3,40.7,36.4,2},{24.3,36.8,36.8,4},{44.3,36,24,6},{24.3,60,15,7},{24.3,49,17.6,8},{24.3,60,26.3,3}
+        ,{24.3,60,65.6,6},{44.3,60,25.8,7},{34.3,40.7,36.4,5},{24.3,36.8,36.8,4},{44.3,36,24,3},{24.3,60,15,3},{24.3,49,17.6,4},{24.3,60,26.3,3}
         ,{34.3,60,32.7,5}};
         Algorithms g=new Algorithms(16);
         int low=0,high=0;
@@ -238,10 +240,11 @@ class Algorithms
 
         //Add for Thiruvananthapuram[15]
 
-        g.modifyEdgeCost(data,low,high,BP,c1,c2,c3,c4,c5,c6);
+        g.modifyEdgeCost(data,low,high,BP,c1,c2,c3,c4,c5,c6,date);
         return g;
     }
-    void modifyEdgeCost(double data[][],int l,int h,String BP,boolean c1, boolean c2, boolean c3, boolean c4, boolean c5, boolean c6)
+    void modifyEdgeCost(double data[][],int l,int h,String BP,boolean c1, boolean c2, boolean c3, boolean c4, boolean c5, boolean c6,
+    String date)
     {
         int i;
         double weight;
@@ -288,6 +291,23 @@ class Algorithms
                 {
                     weight = (data[temp2.v][1]-70) * 20 + weight;
                 }
+                weight=weight-20*data[temp2.v][3];//Rule 5: Decrease cost based on relative comforts
+                try
+                {
+                    if(!date.equals(""))
+                    {
+                        String str=date.substring(date.lastIndexOf("/")+1);
+                        int k=Integer.parseInt(str);
+                        Calendar currentTime = Calendar.getInstance();
+                        currentTime.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+                        int x=currentTime.get(Calendar.YEAR);
+                        if((x-k)>=60)
+                            weight=weight-30*data[temp2.v][3];//Rule 5.1:Comfort evden more impotant for elderly
+                    }
+                }catch (Exception e)
+                {
+                    Log.e("Date exception",e.getMessage());
+                }
                 temp2.w=weight;
                 itr.remove();
                 itr.add(temp2);
@@ -332,7 +352,6 @@ class Algorithms
                 Pair temp2=(Pair)itr.next();
                 v1=temp2.v;
                 w1=temp2.w;
-                //System.out.println("Iterating for "+vertex+": "+v1+","+w1);
                 if(dist[v1]>w1+dist[vertex])
                 {
                     dist[v1]=w1+dist[vertex];

@@ -209,7 +209,8 @@ public class WeatherFragment extends Fragment {
         View rootView=getView();
         Drawable drawable=null;
         Log.e("Okay",actualId+"");
-        actualId=800;/*Remove in actual implementation*/
+        //actualId=800;/*Remove in actual implementation*/
+        //id=5;
         if(actualId == 800){
             long currentTime = new Date().getTime();
             if(currentTime>=sunrise && currentTime<sunset) {
@@ -253,15 +254,17 @@ public class WeatherFragment extends Fragment {
                     break;
                 case 8 : icon = getActivity().getString(R.string.weather_cloudy);
                     drawable=getContext().getResources().getDrawable(R.drawable.w_eleven);
-                    cityField.setTextColor(Color.rgb(27,00,99));
+                    /*cityField.setTextColor(Color.rgb(27,00,99));
                     updatedField.setTextColor(Color.rgb(27,00,99));
                     detailsField.setTextColor(Color.rgb(27,00,99));
-                    currentTemperatureField.setTextColor(Color.rgb(27,00,99));
+                    currentTemperatureField.setTextColor(Color.rgb(27,00,99));*/
                     rootView.setBackground(drawable);
                     break;
                 case 6 : icon = getActivity().getString(R.string.weather_snowy);
                     break;
                 case 5 : icon = getActivity().getString(R.string.weather_rainy);
+                    drawable=getContext().getResources().getDrawable(R.drawable.w_fourteen);
+                    rootView.setBackground(drawable);
                     break;
             }
         }

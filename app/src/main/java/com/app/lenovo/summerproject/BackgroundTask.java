@@ -227,6 +227,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
         }
         else if(result.startsWith("This is it:"))
         {
+            Log.e("Got result",result);
             delegate.processFinish2(result);
         }
         else

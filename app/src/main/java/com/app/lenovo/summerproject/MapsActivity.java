@@ -1,6 +1,7 @@
 package com.app.lenovo.summerproject;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -15,6 +16,8 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -24,7 +27,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -377,7 +383,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         obj = new Algorithms(16);
         double dist[] = new double[16];
         final int parent[] = new int[16];
-        obj = obj.go2(temp,BP,c1,c2,c3,c4,c5,c6);
+        String date=HelperClass.getSharedPreferencesString(this,"Date","");
+        obj = obj.go2(temp,BP,c1,c2,c3,c4,c5,c6,date);
         int x = index(s1);
         int y = index(s2);
         if(x>=16||y>=16) {
@@ -470,7 +477,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LinkIt(par, par[x]);
         }
     }
-
+    void call2(String req)
+    {
+        BackgroundTask backgroundTask = new BackgroundTask((Context) this);
+        backgroundTask.execute("1", req);
+    }
+    private void showInputDialog(final String req){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Additional Information");
+        Context context = this;
+        LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        final TextView tv=new TextView(context);
+        tv.setText(getResources().getString(R.string.AgeGroup));
+        final EditText titleBox = new EditText(context);
+        titleBox.setHint("Age group?");
+        layout.addView(tv);
+        layout.addView(titleBox); // Notice this is an add method
+        final TextView tv2=new TextView(context);
+        tv2.setText(getResources().getString(R.string.Features));
+        final EditText descriptionBox = new EditText(context);
+        descriptionBox.setHint("Description");
+        layout.addView(tv2);
+        layout.addView(descriptionBox); // Another add method
+        builder.setView(layout);
+        /*final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);*/
+        builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                call2(req);
+                Log.e("Getting information",req+","+titleBox.getText()+","+descriptionBox.getText());
+            }
+        });
+        builder.show();
+    }
     private void dummy3(String x) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         SuggestionModel sm = new SuggestionModel("012", 1);
@@ -486,11 +528,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for(i=0;i<arr.length-1;i++)
             req=req+temp[i]+",";
         req=req+temp[i];
+        showInputDialog(req);
         /*req=Arrays.toString(temp);
         req=req.replace("[","");
         req=req.replace("]","");*/
-        BackgroundTask backgroundTask = new BackgroundTask((Context) this);
-        backgroundTask.execute("1", req);
+        /*BackgroundTask backgroundTask = new BackgroundTask((Context) this);
+        backgroundTask.execute("1", req);*/
     }
 
     @Override
@@ -523,7 +566,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     @Override
     protected void onStop() {
-        // TODO Auto-generated method stub
         unregisterReceiver(myReceiver);
         super.onStop();
     }
@@ -540,6 +582,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for (i = 0; i < arr.length; i++)
                     paths[i] = Integer.parseInt(arr[i]);
                 totalDist = obj.getDistance(paths);
+                Log.e("Getting Information 2",totalDist+"");
             /*if(totalDist>distance)
                 LinkIt(move, destination);
             else
@@ -554,12 +597,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         @Override
         public void onReceive(Context arg0, Intent arg1) {
-            // TODO Auto-generated method stub
-
             /*String data = arg1.getStringExtra("msg");
             Toast.makeText(getApplicationContext(), "Triggered by Service!\n" + "Data passed: " + String.valueOf(data),
                     Toast.LENGTH_LONG).show();*/
-
         }
     }
 }
