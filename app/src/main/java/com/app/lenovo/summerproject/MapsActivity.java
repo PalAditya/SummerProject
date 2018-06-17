@@ -1,15 +1,19 @@
 package com.app.lenovo.summerproject;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,6 +42,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TimeZone;
@@ -58,11 +63,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     int names[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
     String str = "";
     String menus[]=null;
+    MyReceiver myReceiver;
+    Context mCtx=null;
+    String DisasterString="";
+    void call(String a)
+    {
+        DisasterString=a;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        final Context mCtx=this;
+        BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // Get extra data included in the Intent
+
+                final String message = intent.getStringExtra("Status");
+                //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                Log.e("A",message);
+                call(message);
+            }
+        };
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                mMessageReceiver, new IntentFilter("DisasterUpdates"));
+         mCtx=this;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -205,6 +230,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.e("Uff", ex.getMessage());
         }
         return p1;
+    }
+    @Override
+    protected void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+        myReceiver = new MyReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(MyFirebaseMessagingService.MY_ACTION);
+        registerReceiver(myReceiver, intentFilter);
+        Intent intent = new Intent(this,
+                MyFirebaseMessagingService.class);
+        startService(intent);
+
+
     }
     private void dummy2(boolean c1, boolean c2, boolean c3, boolean c4, boolean c5, boolean c6)
     {
@@ -366,7 +405,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     return;
                 }
             }
-
                 obj.shortestPath(x, y, dist, parent);
                 String s = dist[y] + "," + parent[y];
                 Log.e("Umm", s + "," + Arrays.toString(parent));
@@ -376,6 +414,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 BackgroundTask backgroundTask=new BackgroundTask((BackgroundTask.AsyncResponse) this);
                 backgroundTask.execute("4",x+"",y+"");
                 mMap.clear();
+                //s=HelperClass.getSharedPreferencesString(getApplicationContext(),"message","");
+                Log.e("B",DisasterString);
+                if(!DisasterString.equals(""))
+                {
+                    String parts1=DisasterString.substring(0,DisasterString.indexOf("."));
+                    parts1=parts1.trim();
+                    String parts2=DisasterString.substring(DisasterString.indexOf(".")+1);
+                    Log.e("E",parts1+","+parts2);
+                    LatLng a=null;
+                    /*if(ll[index(parts1)]==null)
+                        a=getLocationFromAddress(this,parts1);
+                    else
+                        a=ll[index(parts1)];*/
+                    a=getLocationFromAddress(this,parts1);
+                    if(a!=null)
+                        mMap.addMarker(new MarkerOptions().position(a).title(parts2));
+                }
                 LatLng Roorkee = new LatLng(29.8453, 77.8880);
                 mMap.addMarker(new MarkerOptions().position(Roorkee).title("Roorkee"));
                 LinkIt(parent,y);
@@ -466,7 +521,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
     }
-
+    @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        unregisterReceiver(myReceiver);
+        super.onStop();
+    }
     @Override
     public void processFinish2(String s2) {
         s2=s2.substring(s2.indexOf(":")+1);
@@ -488,6 +548,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }catch (Exception e)
         {
             Log.e("Whatever",e.getMessage());
+        }
+    }
+    private class MyReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context arg0, Intent arg1) {
+            // TODO Auto-generated method stub
+
+            /*String data = arg1.getStringExtra("msg");
+            Toast.makeText(getApplicationContext(), "Triggered by Service!\n" + "Data passed: " + String.valueOf(data),
+                    Toast.LENGTH_LONG).show();*/
+
         }
     }
 }

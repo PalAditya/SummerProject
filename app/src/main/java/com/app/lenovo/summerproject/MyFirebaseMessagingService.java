@@ -5,10 +5,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.firebase.jobdispatcher.Constraint;
@@ -21,7 +24,7 @@ import com.google.firebase.messaging.RemoteMessage;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
-
+    final static String MY_ACTION = "MY_ACTION";
     /**
      * Called when message is received.
      *
@@ -57,15 +60,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
 
         }
-
-        // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
-        sendNotification(remoteMessage.getNotification().getBody());
+        String str=remoteMessage.getNotification().getBody();
+        String s1=str.substring(0,str.indexOf("."));
+        String s2=str.substring(str.indexOf(".")+1);
+        sendNotification(s1);
+        sendMessageToActivity(s2);
+        Intent intent = new Intent();
+        intent.setAction(MY_ACTION);
+        intent.putExtra("Msg",s1);
+        sendBroadcast(intent);
+        HelperClass.putSharedPreferencesString(this,"message",s2);
     }
     // [END receive_message]
 
@@ -124,5 +134,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+    private void sendMessageToActivity( String msg) {
+        Intent intent = new Intent("DisasterUpdates");
+        intent.putExtra("Status", msg);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }
