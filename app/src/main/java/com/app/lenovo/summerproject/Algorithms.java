@@ -270,6 +270,14 @@ class Algorithms
         g.addEdge(5,14,2681.4);
         g.addEdge(5,15,3394.2);
         g.addEdge(5,16,316.2);
+        g.addEdge(5,17,1699.8);
+        g.addEdge(5,18,3271.8);
+        g.addEdge(5,19,2166.8);
+        g.addEdge(5,20,2265.9);
+        g.addEdge(5,21,1107.1);
+        g.addEdge(5,22,90.1);
+        g.addEdge(5,23,537.9);
+        g.addEdge(5,24,480.5);
 
         //Add for Gandhinagar[6]
         g.addEdge(6,7,604.4);
@@ -279,6 +287,14 @@ class Algorithms
         g.addEdge(6,14,1868.1);
         g.addEdge(6,15,2207.1);
         g.addEdge(6,16,2771.3);
+        g.addEdge(6,17,1134.6);
+        g.addEdge(6,18,1102.3);
+        g.addEdge(6,19,1151.4);
+        g.addEdge(6,20,1250.6);
+        g.addEdge(6,21,1617.2);
+        g.addEdge(6,22,2624.2);
+        g.addEdge(6,23,3072);
+        g.addEdge(6,24,3014.7);
 
         //Add for Bhopal[7]
         g.addEdge(7,10,1176.4);
@@ -287,6 +303,14 @@ class Algorithms
         g.addEdge(7,14,1475.7);
         g.addEdge(7,15,2125.1);
         g.addEdge(7,16,2282.8);
+        g.addEdge(7,17,631.1);
+        g.addEdge(7,18,1218.7);
+        g.addEdge(7,19,1005.3);
+        g.addEdge(7,20,1104.6);
+        g.addEdge(7,21,1016.5);
+        g.addEdge(7,22,2135.7);
+        g.addEdge(7,23,2583.5);
+        g.addEdge(7,24,2526.1);
 
         //Add for Bhubaneswar[10]
         g.addEdge(10,12,1053.3);
@@ -294,24 +318,118 @@ class Algorithms
         g.addEdge(10,14,1232.7);
         g.addEdge(10,15,1945.4);
         g.addEdge(10,16,1681.2);
+        g.addEdge(10,17,547.1);
+        g.addEdge(10,18,1706.4);
+        g.addEdge(10,19,1881.8);
+        g.addEdge(10,20,1981.1);
+        g.addEdge(10,21,489);
+        g.addEdge(10,22,1534.1);
+        g.addEdge(10,23,1981.9);
+        g.addEdge(10,24,1924.6);
 
         //Add for Hyderabad[12]
         g.addEdge(12,13,575.5);
         g.addEdge(12,14,627.2);
         g.addEdge(12,13,1259.9);
         g.addEdge(12,16,2712.6);
+        g.addEdge(12,17,782.1);
+        g.addEdge(12,18,688.1);
+        g.addEdge(12,19,1810.4);
+        g.addEdge(12,20,1909.7);
+        g.addEdge(12,21,1378.3);
+        g.addEdge(12,22,2565.5);
+        g.addEdge(12,23,3013.4);
+        g.addEdge(12,24,2956);
 
         //Add for Bangalore[13]
         g.addEdge(13,14,345.7);
         g.addEdge(13,15,686.4);
         g.addEdge(13,16,3098.1);
+        g.addEdge(13,17,1370.8);
+        g.addEdge(13,18,589.5);
+        g.addEdge(13,19,2399.1);
+        g.addEdge(13,20,2498.4);
+        g.addEdge(13,21,1967);
+        g.addEdge(13,22,2951);
+        g.addEdge(13,23,3398.8);
+        g.addEdge(13,24,3341.5);
 
         //Add for Chennai[14]
         g.addEdge(14,15,725.4);
         g.addEdge(14,16,2908.3);
+        g.addEdge(14,17,1257.5);
+        g.addEdge(14,18,943.1);
+        g.addEdge(14,19,2433.8);
+        g.addEdge(14,20,2533.1);
+        g.addEdge(14,21,1716.1);
+        g.addEdge(14,22,2761.2);
+        g.addEdge(14,23,3209.1);
+        g.addEdge(14,24,3151.7);
 
         //Add for Thiruvananthapuram[15]
         g.addEdge(15,16,3622.0);
+        g.addEdge(15,17,2054.4);
+        g.addEdge(15,18,1280.8);
+        g.addEdge(15,19,3082.7);
+        g.addEdge(15,20,3181.9);
+        g.addEdge(15,21,2429.8);
+        g.addEdge(15,22,3474.9);
+        g.addEdge(15,23,3922.7);
+        g.addEdge(15,24,3865.4);
+
+        //Add for Itanagar[16]
+        g.addEdge(16,17,1937.4);
+        g.addEdge(16,18,3509.4);
+        g.addEdge(16,19,2404.2);
+        g.addEdge(16,20,2503.4);
+        g.addEdge(16,21,1344.7);
+        g.addEdge(16,22,389.9);
+        g.addEdge(16,23,763);
+        g.addEdge(16,24,567.3);
+
+        //Add for Raipur[17]
+        g.addEdge(17,18,1380.4);
+        g.addEdge(17,19,1459.6);
+        g.addEdge(17,20,1558.9);
+        g.addEdge(17,21,595.6);
+        g.addEdge(17,22,1782.9);
+        g.addEdge(17,23,2230.7);
+        g.addEdge(17,24,2173.4);
+
+        //Add for Panaji[18]
+        g.addEdge(18,19,2224.4);
+        g.addEdge(18,20,2323.6);
+        g.addEdge(18,21,1944.6);
+        g.addEdge(18,22,3354.9);
+        g.addEdge(18,23,3802.7);
+        g.addEdge(18,24,3745.4);
+
+        //Add for Chandigarh[19]
+        g.addEdge(19,20,113);
+        g.addEdge(19,21,1464.9);
+        g.addEdge(19,22,2245.8);
+        g.addEdge(19,23,2693.6);
+        g.addEdge(19,24,2636.3);
+
+        //Add for Shimla[20]
+        g.addEdge(20,21,1564.2);
+        g.addEdge(20,22,2345.1);
+        g.addEdge(20,23,2792.9);
+        g.addEdge(20,24,2735.5);
+
+        //Add for Ranchi[21]
+        g.addEdge(21,22,1189.9);
+        g.addEdge(21,23,1637.7);
+        g.addEdge(21,24,1580.4);
+
+        //Add for Shillong[22]
+        g.addEdge(22,23,459.8);
+        g.addEdge(22,24,483.2);
+
+        //Add for Agartala[23]
+        g.addEdge(23,24,549.1);
+
+        //Add for Imphal[24]
 
         g.modifyEdgeCost(data,low,high,BP,c1,c2,c3,c4,c5,c6,date);
         return g;

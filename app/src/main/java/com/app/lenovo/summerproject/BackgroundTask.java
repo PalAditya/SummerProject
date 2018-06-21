@@ -38,7 +38,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
     int index(String s) {
         Log.e("s",s);
         s=s.substring(0,s.length()-3);
-        for (int i = 0; i < 16; i++)
+        for (int i = 0; i < 25; i++)
             if (name[i].equals(s))
                 return i;
         return 100;
@@ -46,7 +46,8 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
 
     public AsyncResponse delegate = null;
     String name[] = {"Srinagar","Delhi","Jaipur","Lucknow","Patna","Dispur","Gandhinagar","Bhopal","Kolkata","Mumbai",
-            "Bhubaneswar","Roorkee","Hyderabad","Bengaluru","Chennai","Thiruvananthapuram"};
+            "Bhubaneswar","Roorkee","Hyderabad","Bengaluru","Chennai","Thiruvananthapuram", "Itanagar","Raipur","Panaji","Chandigarh"
+            ,"Shimla","Ranchi","Shillong","Agartala","Imphal"};
     public BackgroundTask(AsyncResponse delegate){
         this.delegate = delegate;
     }
@@ -72,7 +73,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
         }
         String s3="2018-06-02";
         String upload_url = "http://almat.almafiesta.com/Kryptex5.0/upload2.php";
-        String theta_url="http://almat.almafiesta.com/Kryptex5.0/Theta.txt";
+        String theta_url="http://almat.almafiesta.com/Kryptex5.0/ThetaSeasonal.txt";
         String relief_url="https://api.reliefweb.int/v1/reports?appname=adityapal.nghss@gmail.com&filter[field]=country" +
                 "&filter[value]=India&sort[]=date:desc&filter[field]=disaster&filter[value]=cycl" +
                 "one&filter[field]=date.created&filter[value][from]="+s3+"T00:00:00%2B00:00&filt" +
@@ -110,17 +111,28 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
                 BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
                 double predict=0.0;
                 int index=index(params[4]);
-                if(index==100)
+                /*if(index==100)
                     return "Sorry,city not in Database";
-                Log.e("Eh",index+"");
-                for(int i=0;i<=index;i++) {
-                    String s1[] = in.readLine().split(" ");
-                    String s2[] = in.readLine().split(" ");
-                    String s5=in.readLine();
-                    //Log.e("Umm",Arrays.toString(s1)+","+Arrays.toString(s2)+","+s5);
-                    predict = Double.parseDouble(s1[0]) * Double.parseDouble(params[1]) + Double.parseDouble(s1[1]) * Double.parseDouble(params[2]) * 0.76 +
-                            Double.parseDouble(s1[2]) * Double.parseDouble(params[3]) + Double.parseDouble(s1[3]) * Double.parseDouble(s2[0]) +
-                            Double.parseDouble(s1[4]) * Double.parseDouble(s2[1]);
+                Log.e("Eh",index+"");*/
+                String str="";
+                params[4]=params[4].substring(0,params[4].length()-3);
+                for(int i=0;i<25;i++) {
+                    if((str=in.readLine())!=null) {
+                        String s1[] =str.split(" ");
+                        String s2[] = in.readLine().split(" ");
+                        String s5 = in.readLine();
+                        //Log.e("Umm",Arrays.toString(s1)+","+Arrays.toString(s2)+","+s5);
+                        /*predict = Double.parseDouble(s1[0]) + Double.parseDouble(s1[1]) * Double.parseDouble(params[1]) + Double.parseDouble(s1[2]) * Double.parseDouble(params[2]) * 0.76 +
+                                Double.parseDouble(s1[3]) * Double.parseDouble(params[3]) + Double.parseDouble(s1[4]) * Double.parseDouble(s2[0]) +
+                                Double.parseDouble(s1[5]) * Double.parseDouble(s2[1]);*/
+                        predict =   Double.parseDouble(s1[0]) * Double.parseDouble(params[1]) + Double.parseDouble(s1[1]) * Double.parseDouble(params[2]) * 0.76 +
+                                Double.parseDouble(s1[2]) * Double.parseDouble(params[3]) + Double.parseDouble(s1[3]) * Double.parseDouble(s2[0]) +
+                                Double.parseDouble(s1[4]) * Double.parseDouble(s2[1]);
+                        if (s5.equals(params[4]))
+                            break;
+                    }
+                    else
+                        break;
                 }
                 return predict+"";
             } catch (MalformedURLException e) {

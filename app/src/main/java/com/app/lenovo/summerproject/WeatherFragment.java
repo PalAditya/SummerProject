@@ -233,10 +233,10 @@ public class WeatherFragment extends Fragment {
                 case 2 : icon = getActivity().getString(R.string.weather_thunder);
                     drawable=getContext().getResources().getDrawable(R.drawable.w_seven);
                     HelperClass.putSharedPreferencesBoolean(getContext(),"Rain",true);
-                    /*cityField.setTextColor(Color.rgb(27,00,99));
-                    updatedField.setTextColor(Color.rgb(27,00,99));
-                    detailsField.setTextColor(Color.rgb(27,00,99));
-                    currentTemperatureField.setTextColor(Color.rgb(27,00,99));*/
+                    cityField.setTextColor(Color.rgb(255,255,255));
+                    updatedField.setTextColor(Color.rgb(255,255,255));
+                    detailsField.setTextColor(Color.rgb(255,255,255));
+                    currentTemperatureField.setTextColor(Color.rgb(255,255,255));
                     rootView.setBackground(drawable);
                     break;
                 case 3 : icon = getActivity().getString(R.string.weather_drizzle);
@@ -254,10 +254,10 @@ public class WeatherFragment extends Fragment {
                     break;
                 case 8 : icon = getActivity().getString(R.string.weather_cloudy);
                     drawable=getContext().getResources().getDrawable(R.drawable.w_eleven);
-                    /*cityField.setTextColor(Color.rgb(27,00,99));
-                    updatedField.setTextColor(Color.rgb(27,00,99));
-                    detailsField.setTextColor(Color.rgb(27,00,99));
-                    currentTemperatureField.setTextColor(Color.rgb(27,00,99));*/
+                    cityField.setTextColor(Color.rgb(255,255,255));
+                    updatedField.setTextColor(Color.rgb(255,255,255));
+                    detailsField.setTextColor(Color.rgb(255,255,255));
+                    currentTemperatureField.setTextColor(Color.rgb(255,255,255));
                     rootView.setBackground(drawable);
                     break;
                 case 6 : icon = getActivity().getString(R.string.weather_snowy);
