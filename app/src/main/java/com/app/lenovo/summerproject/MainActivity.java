@@ -6,8 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +33,7 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity
 {
     int SIGN_IN_REQUEST_CODE=200;
+    int CANCELNOTIFICATIONID=100;
     public boolean isNetworkAvailable(Context context) {
         ConnectivityManager conMan = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if(conMan.getActiveNetworkInfo() != null && conMan.getActiveNetworkInfo().isConnected())
@@ -74,7 +78,31 @@ public class MainActivity extends AppCompatActivity
         }
         LeakCanary.install(getApplication());*/
         setContentView(R.layout.activity_weather);
-
+        try {
+            /*Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+            notificationBuilder.setSmallIcon(R.drawable.fui_ic_twitter_bird_white_24dp);
+            notificationBuilder.setContentTitle("Sample");
+            notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText("Suggestion"));
+            notificationBuilder.setContentText("Suggestions,2");
+            notificationBuilder.setSound(defaultSoundUri);
+            Intent upvoteIntent = new Intent(this, SuggestionWeight.class);
+            Intent downvoteIntent = new Intent(this, SuggestionWeight.class);
+            PendingIntent pendingIntent=PendingIntent.getActivity(this,0,upvoteIntent,PendingIntent.FLAG_CANCEL_CURRENT);
+            notificationBuilder.addAction(R.drawable.fui_done_check_mark, "Helpful", PendingIntent.getActivity(this, CANCELNOTIFICATIONID, upvoteIntent, 0));
+            notificationBuilder.addAction(R.drawable.crossed, "Not Helpful", PendingIntent.getActivity(this, CANCELNOTIFICATIONID, downvoteIntent, 0));*/
+            Intent callIntent=new Intent(this,SuggestionWeight.class);
+            callIntent.putExtra("Val",5+"");
+            PendingIntent pendingIntent=PendingIntent.getService(this,100,callIntent,PendingIntent.FLAG_CANCEL_CURRENT);
+            AlarmManager alarms = (AlarmManager) getSystemService(ALARM_SERVICE);
+            Calendar time=Calendar.getInstance();
+            alarms.setRepeating(AlarmManager.RTC_WAKEUP,
+                    time.getTimeInMillis(),1000*60*60*3,
+                    pendingIntent);
+        }catch (Exception e)
+        {
+            Log.e("Eh",e.getMessage());
+        }
         Intent i = new Intent(this, ReduceServerLoad.class);
         Calendar time=Calendar.getInstance();
         if(!isServiceRunning(ReduceServerLoad.class)) {
