@@ -59,14 +59,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     DrawerLayout mDrawerLayout;
     private DatabaseReference mDatabase;
-    int move[]=new int[16];
+    int move[]=new int[25];
     int destination=0;
     Algorithms obj=null;
     double distance=0.0;
-    LatLng ll[]=new LatLng[16];
+    LatLng ll[]=new LatLng[25];
     String name[] = {"Srinagar","Delhi","Jaipur","Lucknow","Patna","Dispur","Gandhinagar","Bhopal","Kolkata","Mumbai",
-    "Bhubaneswar","Roorkee","Hyderabad","Bengaluru","Chennai","Thiruvananthapuram"};
-    int names[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+    "Bhubaneswar","Roorkee","Hyderabad","Bengaluru","Chennai","Thiruvananthapuram", "Itanagar","Raipur","Panaji","Chandigarh"
+            ,"Shimla","Ranchi","Shillong","Agartala","Imphal"};
+    int names[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,16,17,18,19,20,21,22,23,24};
     String str = "";
     String menus[]=null;
     MyReceiver myReceiver;
@@ -97,7 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         new Thread(new Runnable() {
             @Override
             public void run() {
-               for (int i=0;i<16;i++)
+               for (int i=0;i<25;i++)
                    ll[i]=getLocationFromAddress(mCtx,name[i]);
                Log.e("Whee", Arrays.toString(ll));
             }
@@ -374,20 +375,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     int index(String s) {
-        for (int i = 0; i < 16; i++)
+        for (int i = 0; i <25 ; i++)
             if (name[i].equals(s))
                 return i;
         return 100;
     }
     final void dummy(String s1, String s2,String temp,String BP,boolean c1, boolean c2, boolean c3, boolean c4, boolean c5, boolean c6) {
-        obj = new Algorithms(16);
-        double dist[] = new double[16];
-        final int parent[] = new int[16];
+        obj = new Algorithms(25);
+        double dist[] = new double[25];
+        final int parent[] = new int[25];
         String date=HelperClass.getSharedPreferencesString(this,"Date","");
         obj = obj.go2(temp,BP,c1,c2,c3,c4,c5,c6,date);
         int x = index(s1);
         int y = index(s2);
-        if(x>=16||y>=16) {
+        if(x==100||y==100) {
             Log.e("Eh?","Your index function is wrong!");
             return;
         }
@@ -484,7 +485,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     private void showInputDialog(final String req){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Additional Information");
+        builder.setTitle("  Additional Information"+System.lineSeparator());
         Context context = this;
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -511,7 +512,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.e("Getting information",req+","+titleBox.getText()+","+descriptionBox.getText());
             }
         });
-        builder.show();
+        AlertDialog alertDialog=builder.create();
+        alertDialog.show();
+        alertDialog.getWindow().setLayout(600, 550);
     }
     private void dummy3(String x) {
         mDatabase = FirebaseDatabase.getInstance().getReference();

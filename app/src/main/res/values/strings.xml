@@ -27,8 +27,8 @@
     <string name="bp">Blood Pressure</string>
     <string name="date">Date…</string>
     <string name="Service">ServerLoadReduction</string>
-    <string name="AgeGroup">For which age group is this path recommended?</string>
-    <string name="Features">Features?(Max 50 characters)</string>
+    <string name="AgeGroup"> \u0020\u0020\u0020\u0020\u0020\u0020For which age group ?</string>
+    <string name="Features">  &#13;&#10;&#13;&#10;\u0020\u0020\u0020\u0020\u0020\u0020\u0020  Features?(Max 50 characters)</string>
     <string name="range">"Nice temperatures…"</string>
     <string name="Gender">Male?</string>
     <string name="other">Any other issues?(Be concise)</string>

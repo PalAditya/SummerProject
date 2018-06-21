@@ -77,9 +77,10 @@ class Algorithms
     {
         //Rows are cities, columns are Temperatures and Humidity. Ignore column 3 for now. 4 is comfort locations
         double data[][]={{24.3,56.3,20,2},{24.3,45.5,36,3},{24.3,45,25,4},{24.3,92,28.4,2},{46.2,60,25.7,1},{34.3,30.5,34.8,5},{24.3,60,42.4,3}
-        ,{24.3,60,65.6,6},{44.3,60,25.8,7},{34.3,40.7,36.4,5},{24.3,36.8,36.8,4},{44.3,36,24,3},{24.3,60,15,3},{24.3,49,17.6,4},{24.3,60,26.3,3}
-        ,{34.3,60,32.7,5}};
-        Algorithms g=new Algorithms(16);
+        ,{24.3,60,65.6,6},{44.3,60,25.8,3},{34.3,40.7,36.4,5},{24.3,36.8,36.8,4},{44.3,36,24,3},{24.3,60,15,3},{24.3,49,17.6,2},{24.3,60,26.3,5}
+        ,{34.3,60,32.7,5},{28,94,22,5},{26.57,94,22,3},{24.02,100,22,3},{29.97,68,22,3},{23.52,46,22,1},{31,66,22,2},{31,84,22,1}
+        ,{31,79,22,2},{24,94,22,2}};
+        Algorithms g=new Algorithms(25);
         int low=0,high=0;
         try {
             low = Integer.parseInt(temp.substring(0, 2));
@@ -105,6 +106,15 @@ class Algorithms
         g.addEdge(8,13,1858.7);
         g.addEdge(8,14,1673.1);
         g.addEdge(8,15,2385.9);
+        g.addEdge(8,16,1265.7);
+        g.addEdge(8,17,944.8);
+        g.addEdge(8,18,2146.4);
+        g.addEdge(8,19,1722);
+        g.addEdge(8,20,1821.3);
+        g.addEdge(8,21,434.5);
+        g.addEdge(8,22,1118.6);
+        g.addEdge(8,23,1566.4);
+        g.addEdge(8,24,1509);
 
         //Add for Mumbai[9]
         g.addEdge(9,0,2176.4);
@@ -121,6 +131,15 @@ class Algorithms
         g.addEdge(9,13,983.9);
         g.addEdge(9,14,1336.9);
         g.addEdge(9,15,1675.8);
+        g.addEdge(9,16,3060);
+        g.addEdge(9,17,1101.8);
+        g.addEdge(9,18,571.0);
+        g.addEdge(9,17,1672.5);
+        g.addEdge(9,20,1771.7);
+        g.addEdge(9,21,1697.9);
+        g.addEdge(9,22,2912.9);
+        g.addEdge(9,23,3360.8);
+        g.addEdge(9,24,3304.8);
 
         //Add for Srinagar[0]
         g.addEdge(0,1,812);
@@ -135,6 +154,15 @@ class Algorithms
         g.addEdge(0,12,2379.8);
         g.addEdge(0,13,2969);
         g.addEdge(0,14,3004);
+        g.addEdge(0,16,2960.4);
+        g.addEdge(0,17,2021.3);
+        g.addEdge(0,18,2721.6);
+        g.addEdge(0,19,566.6);
+        g.addEdge(0,20,633.9);
+        g.addEdge(0,21,2032.4);
+        g.addEdge(0,22,2813.3);
+        g.addEdge(0,23,3261.1);
+        g.addEdge(0,24,3203.7);
 
         //Add for Roorkee[11]
         g.addEdge(11,1,200.5);
@@ -149,6 +177,15 @@ class Algorithms
         g.addEdge(11,13,2311.4);
         g.addEdge(11,14,2346.4);
         g.addEdge(11,15,2995.8);
+        g.addEdge(11,16,2292.2);
+        g.addEdge(11,17,1353.1);
+        g.addEdge(11,18,2139.6);
+        g.addEdge(11,19,183.8);
+        g.addEdge(11,20,265.4);
+        g.addEdge(11,21,1364.1);
+        g.addEdge(11,22,2145.1);
+        g.addEdge(11,23,2592.9);
+        g.addEdge(11,24,2535.5);
 
         //Add for Delhi[1]
         g.addEdge(1,2,268.8);
@@ -162,6 +199,7 @@ class Algorithms
         g.addEdge(1,13,2174.5);
         g.addEdge(1,14,2209.5);
         g.addEdge(1,15,2858.9);
+        g.addEdge(1,16,2165.9);
 
         //Add for Jaipur[2]
         g.addEdge(2,3,576.3);
@@ -174,6 +212,15 @@ class Algorithms
         g.addEdge(2,13,2118.0);
         g.addEdge(2,14,2107.4);
         g.addEdge(2,15,2810.0);
+        g.addEdge(2,16,2188.1);
+        g.addEdge(2,17,1226.8);
+        g.addEdge(2,18,1973.1);
+        g.addEdge(2,19,246.7);
+        g.addEdge(2,20,346.1);
+        g.addEdge(2,21,1237.9);
+        g.addEdge(2,22,2018.8);
+        g.addEdge(2,23,2466.6);
+        g.addEdge(2,24,2409.2);
 
         //Add for Lucknow[3]
         g.addEdge(3,4,534.5);
@@ -185,6 +232,15 @@ class Algorithms
         g.addEdge(3,13,2022.1);
         g.addEdge(3,14,2057.1);
         g.addEdge(3,15,2706.5);
+        g.addEdge(3,16,1613.2);
+        g.addEdge(3,17,849.6);
+        g.addEdge(3,18,1889.20);
+        g.addEdge(3,19,785.8);
+        g.addEdge(3,20,885.1);
+        g.addEdge(3,21,737.6);
+        g.addEdge(3,22,1466.1);
+        g.addEdge(3,23,1913.9);
+        g.addEdge(3,24,1856.5);
 
         //Add for Patna[4]
         g.addEdge(4,5,934.2);
@@ -195,6 +251,15 @@ class Algorithms
         g.addEdge(4,13,2115.3);
         g.addEdge(4,14,2037.8);
         g.addEdge(4,15,2799.7);
+        g.addEdge(4,16,1165.8);
+        g.addEdge(4,17,771.6);
+        g.addEdge(4,18,2127.3);
+        g.addEdge(4,19,1319.3);
+        g.addEdge(4,20,1418.6);
+        g.addEdge(4,21,326.5);
+        g.addEdge(4,22,1018.7);
+        g.addEdge(4,23,1466.6);
+        g.addEdge(4,24,1409.2);
 
         //Add for Dispur[5]
         g.addEdge(5,6,2356.9);
@@ -204,6 +269,7 @@ class Algorithms
         g.addEdge(5,13,2867.0);
         g.addEdge(5,14,2681.4);
         g.addEdge(5,15,3394.2);
+        g.addEdge(5,16,316.2);
 
         //Add for Gandhinagar[6]
         g.addEdge(6,7,604.4);
@@ -212,6 +278,7 @@ class Algorithms
         g.addEdge(6,13,1515.1);
         g.addEdge(6,14,1868.1);
         g.addEdge(6,15,2207.1);
+        g.addEdge(6,16,2771.3);
 
         //Add for Bhopal[7]
         g.addEdge(7,10,1176.4);
@@ -219,26 +286,32 @@ class Algorithms
         g.addEdge(7,13,1440.7);
         g.addEdge(7,14,1475.7);
         g.addEdge(7,15,2125.1);
+        g.addEdge(7,16,2282.8);
 
         //Add for Bhubaneswar[10]
         g.addEdge(10,12,1053.3);
         g.addEdge(10,13,1418.2);
         g.addEdge(10,14,1232.7);
         g.addEdge(10,15,1945.4);
+        g.addEdge(10,16,1681.2);
 
         //Add for Hyderabad[12]
         g.addEdge(12,13,575.5);
         g.addEdge(12,14,627.2);
         g.addEdge(12,13,1259.9);
+        g.addEdge(12,16,2712.6);
 
         //Add for Bangalore[13]
         g.addEdge(13,14,345.7);
         g.addEdge(13,15,686.4);
+        g.addEdge(13,16,3098.1);
 
         //Add for Chennai[14]
         g.addEdge(14,15,725.4);
+        g.addEdge(14,16,2908.3);
 
         //Add for Thiruvananthapuram[15]
+        g.addEdge(15,16,3622.0);
 
         g.modifyEdgeCost(data,low,high,BP,c1,c2,c3,c4,c5,c6,date);
         return g;
