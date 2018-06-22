@@ -42,4 +42,5 @@
     <string name="start">start</string>
     <string name="hobbies">Hobbies</string>
     <string name="cancel">Stop</string>
+    <string name="move">Move to&#8230;</string>
 </resources>

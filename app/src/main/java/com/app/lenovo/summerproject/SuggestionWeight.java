@@ -52,6 +52,7 @@ public class SuggestionWeight extends Service {
             notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText("Suggestion"));
             notificationBuilder.setContentText("Suggestions,2");
             notificationBuilder.setSound(defaultSoundUri);
+            //notificationBuilder.setStyle(new android.support.v4.media.app.NotificationCompat.MediaStyle());
             notificationBuilder.setAutoCancel(true);
             String channelId = getString(R.string.gcm_defaultSenderId);
             Intent upvoteIntent = new Intent(this, SuggestionWeight.class);

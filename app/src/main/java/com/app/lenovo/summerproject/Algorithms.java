@@ -378,7 +378,7 @@ class Algorithms
         g.addEdge(15,24,3865.4);
 
         //Add for Itanagar[16]
-        g.addEdge(16,17,1937.4);
+        /*g.addEdge(16,17,1937.4);
         g.addEdge(16,18,3509.4);
         g.addEdge(16,19,2404.2);
         g.addEdge(16,20,2503.4);
@@ -429,7 +429,7 @@ class Algorithms
         //Add for Agartala[23]
         g.addEdge(23,24,549.1);
 
-        //Add for Imphal[24]
+        //Add for Imphal[24]*/
 
         g.modifyEdgeCost(data,low,high,BP,c1,c2,c3,c4,c5,c6,date);
         return g;

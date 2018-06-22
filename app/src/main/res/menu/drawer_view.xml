@@ -26,5 +26,9 @@
             android:id="@+id/alert"
             android:icon="@drawable/ic_alert"
             android:title="@string/alert" />
+        <item
+            android:id="@+id/move"
+            android:icon="@drawable/move"
+            android:title="@string/move"/>
     </group>
 </menu>

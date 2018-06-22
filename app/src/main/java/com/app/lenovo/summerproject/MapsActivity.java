@@ -65,7 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double distance=0.0;
     LatLng ll[]=new LatLng[25];
     String name[] = {"Srinagar","Delhi","Jaipur","Lucknow","Patna","Dispur","Gandhinagar","Bhopal","Kolkata","Mumbai",
-    "Bhubaneswar","Roorkee","Hyderabad","Bengaluru","Chennai","Thiruvananthapuram", "Itanagar","Raipur","Panaji","Chandigarh"
+            "Bhubaneswar","Roorkee","Hyderabad","Bengaluru","Chennai","Thiruvananthapuram", "Itanagar","Raipur","Panaji","Chandigarh"
             ,"Shimla","Ranchi","Shillong","Agartala","Imphal"};
     int names[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,16,17,18,19,20,21,22,23,24};
     String str = "";
@@ -94,13 +94,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         };
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 mMessageReceiver, new IntentFilter("DisasterUpdates"));
-         mCtx=this;
+        mCtx=this;
         new Thread(new Runnable() {
             @Override
             public void run() {
-               for (int i=0;i<25;i++)
-                   ll[i]=getLocationFromAddress(mCtx,name[i]);
-               Log.e("Whee", Arrays.toString(ll));
+                for (int i=0;i<25;i++)
+                    ll[i]=getLocationFromAddress(mCtx,name[i]);
+                Log.e("Whee", Arrays.toString(ll));
             }
         }).start();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -179,6 +179,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 Toast.makeText(getApplicationContext(), "Alert", Toast.LENGTH_SHORT).show();
                                 dummy4();
                                 break;
+                            case R.id.move:
+                                String arr3[] = str.split(" ");
+                                if(arr3.length>=1&&!arr3[arr3.length-1].equals("")) {
+                                    Log.e("Place",arr3[arr3.length-1]);
+                                    str="";
+                                    dummy6(arr3[arr3.length - 1]);
+                                }
+                                break;
                             default:
                                 Toast.makeText(getApplicationContext(), "Uh-oh", Toast.LENGTH_SHORT).show();
                         }
@@ -201,6 +209,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 });
     }
+    private  void helper6(final String city,final LatLng latLng )
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mMap.addMarker(new MarkerOptions().position(latLng).title(city));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            }
+        });
+    }
+    private void dummy6(final String s) {
+        if(s.equals("Sydney"))
+            helper6(s,new LatLng(-33.8688, 151.2093));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LatLng latLng=getLocationFromAddress(mCtx,s);
+                Log.e("Got",latLng+"");
+                if(latLng!=null)
+                    helper6(s,latLng);
+            }
+        });
+    }
 
     private void dummy5(String str) {
         Intent intent=new Intent(this,MainActivity.class);
@@ -215,8 +246,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLngBounds BOUNDS_INDIA = new LatLngBounds(new LatLng(19.63936, 76.14712), new LatLng(28.20453, 91.34466));
-        mMap.setLatLngBoundsForCameraTarget(BOUNDS_INDIA);
+        //LatLngBounds BOUNDS_INDIA = new LatLngBounds(new LatLng(19.63936, 76.14712), new LatLng(28.20453, 91.34466));
+        //mMap.setLatLngBoundsForCameraTarget(BOUNDS_INDIA);
         mMap.setMinZoomPreference(5);
         LatLng Roorkee = new LatLng(29.8453, 77.8880);
         mMap.addMarker(new MarkerOptions().position(Roorkee).title("Roorkee"));
@@ -240,7 +271,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     @Override
     protected void onStart() {
-        // TODO Auto-generated method stub
         super.onStart();
         myReceiver = new MyReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -303,7 +333,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(HelperClass.getSharedPreferencesBoolean(this,"Wind",false)) {
             al.add(d10);
             if(HelperClass.getSharedPreferencesString(this,"Sport","").equals("Badminton")
-                ||HelperClass.getSharedPreferencesString(this,"Sport","").equals("Golf"))
+                    ||HelperClass.getSharedPreferencesString(this,"Sport","").equals("Golf"))
                 al.add(d16);
         }
         if(HelperClass.getSharedPreferencesBoolean(this,"Humid",false))
@@ -413,35 +443,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     return;
                 }
             }
-                obj.shortestPath(x, y, dist, parent);
-                String s = dist[y] + "," + parent[y];
-                Log.e("Umm", s + "," + Arrays.toString(parent));
-                move=parent.clone();
-                destination=y;
-                distance=dist[y];
-                BackgroundTask backgroundTask=new BackgroundTask((BackgroundTask.AsyncResponse) this);
-                backgroundTask.execute("4",x+"",y+"");
-                mMap.clear();
-                //s=HelperClass.getSharedPreferencesString(getApplicationContext(),"message","");
-                Log.e("B",DisasterString);
-                if(!DisasterString.equals(""))
-                {
-                    String parts1=DisasterString.substring(0,DisasterString.indexOf("."));
-                    parts1=parts1.trim();
-                    String parts2=DisasterString.substring(DisasterString.indexOf(".")+1);
-                    Log.e("E",parts1+","+parts2);
-                    LatLng a=null;
+            obj.shortestPath(x, y, dist, parent);
+            String s = dist[y] + "," + parent[y];
+            Log.e("Umm", s + "," + Arrays.toString(parent));
+            move=parent.clone();
+            destination=y;
+            distance=dist[y];
+            BackgroundTask backgroundTask=new BackgroundTask((BackgroundTask.AsyncResponse) this);
+            backgroundTask.execute("4",x+"",y+"");
+            mMap.clear();
+            //s=HelperClass.getSharedPreferencesString(getApplicationContext(),"message","");
+            Log.e("B",DisasterString);
+            if(!DisasterString.equals(""))
+            {
+                String parts1=DisasterString.substring(0,DisasterString.indexOf("."));
+                parts1=parts1.trim();
+                String parts2=DisasterString.substring(DisasterString.indexOf(".")+1);
+                Log.e("E",parts1+","+parts2);
+                LatLng a=null;
                     /*if(ll[index(parts1)]==null)
                         a=getLocationFromAddress(this,parts1);
                     else
                         a=ll[index(parts1)];*/
-                    a=getLocationFromAddress(this,parts1);
-                    if(a!=null)
-                        mMap.addMarker(new MarkerOptions().position(a).title(parts2));
-                }
-                LatLng Roorkee = new LatLng(29.8453, 77.8880);
-                mMap.addMarker(new MarkerOptions().position(Roorkee).title("Roorkee"));
-                LinkIt(parent,y);
+                a=getLocationFromAddress(this,parts1);
+                if(a!=null)
+                    mMap.addMarker(new MarkerOptions().position(a).title(parts2));
+            }
+            LatLng Roorkee = new LatLng(29.8453, 77.8880);
+            mMap.addMarker(new MarkerOptions().position(Roorkee).title("Roorkee"));
+            LinkIt(parent,y);
 
         } catch (Exception e) {
             Log.e("Testing...", e.getMessage());
@@ -606,4 +636,3 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 }
-
