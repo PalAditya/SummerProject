@@ -23,12 +23,12 @@
             android:icon="@drawable/ic_profile"
             android:title="@string/change_profile" />
         <item
-            android:id="@+id/alert"
-            android:icon="@drawable/ic_alert"
-            android:title="@string/alert" />
-        <item
             android:id="@+id/move"
             android:icon="@drawable/move"
             android:title="@string/move"/>
+        <item
+            android:id="@+id/alert"
+            android:icon="@drawable/ic_alert"
+            android:title="@string/alert" />
     </group>
 </menu>

@@ -21,27 +21,27 @@ public class SuggestionWeight extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("Check", "Yes");
         int val=0;
-        Toast.makeText(this,"Called",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"Called",Toast.LENGTH_SHORT).show();
         try{
             String upvote=intent.getStringExtra("Upvote");
             String downvote=intent.getStringExtra("Downvote");
-            Log.e("We got: ",upvote+","+downvote);
+            //Log.e("We got: ",upvote+","+downvote);
             try {
                 NotificationManager notificationManager2 =
                         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager2.cancelAll();
             }catch (Exception e)
             {
-                Log.e("Is that it","yes");
+               // Log.e("Is that it","yes");
             }
             val=Integer.parseInt(intent.getStringExtra("Val"));
 
-            Log.e("We got: ",upvote+","+downvote+","+intent.getStringExtra("Val"));
+           // Log.e("We got: ",upvote+","+downvote+","+intent.getStringExtra("Val"));
         }catch (Exception e)
         {
             val=0;
             //Log.e("We got: ",intent.getStringExtra("Upvote")+","+intent.getStringExtra("Upvote")+","+intent.getStringExtra("Val"));
-            Log.e("Inside Service",e.getMessage());
+            //Log.e("Inside Service",e.getMessage());
         }
         Log.e("Done","I'm intelligent"+val);
         if(val==5) {
@@ -80,8 +80,8 @@ public class SuggestionWeight extends Service {
 
     @Override
     public void onCreate() {
-        Toast.makeText(this,"Called",Toast.LENGTH_SHORT).show();
-        Log.e("Check", "Yes");
+        //Toast.makeText(this,"Called",Toast.LENGTH_SHORT).show();
+        //Log.e("Check", "Yes");
     }
     public IBinder onBind(Intent intent) {
         return null;

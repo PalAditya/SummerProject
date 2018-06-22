@@ -578,8 +578,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Menu m = navView.getMenu();
         try
         {
-            while(m.size()>6)
-                m.removeItem(m.getItem(6).getItemId());
+            while(m.size()>7)
+                m.removeItem(m.getItem(7).getItemId());
         }catch (Exception e)
         {
             Log.e("Let's see",e.getMessage());

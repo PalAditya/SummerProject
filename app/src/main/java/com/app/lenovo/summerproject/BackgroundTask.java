@@ -65,13 +65,19 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String s4= formatter.format(date);
         Log.e("Umm",s4);
+        int x=0;
         try {
-            int x = Integer.parseInt(s4.substring(s4.length() - 2));
+            x = Integer.parseInt(s4.substring(s4.length() - 2));
+            x=x-3;
         }catch(Exception e)
         {
             Log.e("Hmm",e.getMessage());
         }
-        String s3="2018-06-02";
+        String s3="2018-06-22";
+        if(x!=1&&x!=2&&x!=3)
+            s3=s4.substring(0,8)+x+"";
+        Log.e("Date",x+"");
+        //String s3="2018-06-02";
         String upload_url = "http://almat.almafiesta.com/Kryptex5.0/upload2.php";
         String theta_url="http://almat.almafiesta.com/Kryptex5.0/ThetaSeasonal.txt";
         String relief_url="https://api.reliefweb.int/v1/reports?appname=adityapal.nghss@gmail.com&filter[field]=country" +
