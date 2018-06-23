@@ -205,6 +205,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(menus[1]));
                                 startActivity(i);
                             }
+
                         }catch (Exception e)
                         {
                             Log.e("What now?",e.getMessage());
@@ -674,6 +675,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         if(menus.length>=4) {
             topChannelMenu.add("Link 3");
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"No alerts today :)",Toast.LENGTH_SHORT).show();
         }
 
     }
