@@ -43,4 +43,6 @@
     <string name="hobbies">Hobbies</string>
     <string name="cancel">Stop</string>
     <string name="move">Move to&#8230;</string>
+    <string name="AgeGroup2">Age group</string>
+    <string name="Description">Description</string>
 </resources>

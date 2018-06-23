@@ -21,22 +21,18 @@ public class SuggestionWeight extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("Check", "Yes");
         int val=0;
-        //Toast.makeText(this,"Called",Toast.LENGTH_SHORT).show();
         try{
             String upvote=intent.getStringExtra("Upvote");
             String downvote=intent.getStringExtra("Downvote");
-            //Log.e("We got: ",upvote+","+downvote);
             try {
                 NotificationManager notificationManager2 =
                         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager2.cancelAll();
             }catch (Exception e)
             {
-               // Log.e("Is that it","yes");
             }
             val=Integer.parseInt(intent.getStringExtra("Val"));
 
-           // Log.e("We got: ",upvote+","+downvote+","+intent.getStringExtra("Val"));
         }catch (Exception e)
         {
             val=0;

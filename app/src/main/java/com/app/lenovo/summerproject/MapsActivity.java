@@ -33,6 +33,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -589,10 +591,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         layout.addView(tv2);
         layout.addView(descriptionBox); // Another add method
         builder.setView(layout);
+        boolean wrapInScrollView = true;
+        MaterialDialog.Builder dialog=new MaterialDialog.Builder(this)
+                .title("Additional information")
+                .customView(R.layout.add_suggestion, wrapInScrollView)
+                .positiveText("Positive").onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        call2(req);
+                        final EditText e1=dialog.getView().findViewById(R.id.titleBox);
+                        final EditText e2=dialog.getView().findViewById(R.id.descriptionBox);
+                        /*final String s2=e2.getText().toString();
+                        final String s1=e1.getText().toString()*/;
+                        Log.e("Getting information",req+","+e1.getText()+","+e2.getText());
+                    }
+                });
+        MaterialDialog materialDialog=dialog.build();
+        materialDialog.setActionButton(DialogAction.POSITIVE,"Add");
+        materialDialog.show();
+
         /*final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);*/
-        builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
+        /*builder.setPositiveButton("Go", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 call2(req);
@@ -601,7 +622,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
         AlertDialog alertDialog=builder.create();
         alertDialog.show();
-        alertDialog.getWindow().setLayout(600, 550);
+        alertDialog.getWindow().setLayout(600, 550);*/
     }
     private void dummy3(String x) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
