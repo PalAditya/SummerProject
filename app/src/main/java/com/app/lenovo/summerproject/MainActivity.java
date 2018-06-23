@@ -28,6 +28,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
 import com.squareup.leakcanary.LeakCanary;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
@@ -78,8 +79,12 @@ public class MainActivity extends AppCompatActivity
         }
         LeakCanary.install(getApplication());*/
         setContentView(R.layout.activity_weather);
+        int trick=Integer.parseInt(HelperClass.getSharedPreferencesString(this,"Debug","1"));
         try {
-            if(!isServiceRunning(SuggestionWeight.class)) {
+            boolean check=false;
+            if(trick==1)
+                check=isServiceRunning(SuggestionWeight.class);
+            if(!check) {
                 Intent callIntent = new Intent(this, SuggestionWeight.class);
                 callIntent.putExtra("Val", 5 + "");
                 PendingIntent pendingIntent = PendingIntent.getService(this, 100, callIntent, PendingIntent.FLAG_CANCEL_CURRENT);

@@ -277,6 +277,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             helper6(s,new LatLng(25.2048, 55.2708));
         else if(s.equalsIgnoreCase("Kathmandu"))
             helper6(s,new LatLng(27.7172, 85.3240));
+        else if(index(s)<100&&ll[index(s)]!=null)
+            helper6(s,ll[index(s)]);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -708,9 +710,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         @Override
         public void onReceive(Context arg0, Intent arg1) {
-            /*String data = arg1.getStringExtra("msg");
-            Toast.makeText(getApplicationContext(), "Triggered by Service!\n" + "Data passed: " + String.valueOf(data),
-                    Toast.LENGTH_LONG).show();*/
+
         }
     }
 }
