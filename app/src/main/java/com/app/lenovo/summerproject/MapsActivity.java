@@ -32,6 +32,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -220,8 +222,59 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
     private void dummy6(final String s) {
-        if(s.equals("Sydney"))
+        mMap.clear();
+        if(s.equalsIgnoreCase("Sydney"))
             helper6(s,new LatLng(-33.8688, 151.2093));
+        else if(s.equalsIgnoreCase("Canberra"))
+            helper6(s,new LatLng(-35.2809, 149.1300));
+        else if(s.equalsIgnoreCase("Melbourne"))
+            helper6(s,new LatLng(-37.8136, 144.9631 ));
+        else if(s.equalsIgnoreCase("Adelaide"))
+            helper6(s,new LatLng(-34.9285, 138.6007));
+        else if(s.equalsIgnoreCase("Beijing"))
+            helper6(s,new LatLng(39.9042, 116.4074));
+        else if(s.equalsIgnoreCase("Wellington"))
+            helper6(s,new LatLng(-41.2865, 174.7762));
+        else if(s.equalsIgnoreCase("Tokyo"))
+            helper6(s,new LatLng(35.6895, 139.6917));
+        else if(s.equalsIgnoreCase("Karachi"))
+            helper6(s,new LatLng(24.8607, 67.0011));
+        else if(s.equalsIgnoreCase("Shanghai"))
+            helper6(s,new LatLng(31.2304, 121.4737));
+        else if(s.equalsIgnoreCase("Dhaka"))
+            helper6(s,new LatLng(23.8103, 90.4125));
+        else if(s.equalsIgnoreCase("Moscow"))
+            helper6(s,new LatLng(55.7558, 37.6173));
+        else if(s.equalsIgnoreCase("Sao Paulo"))
+            helper6(s,new LatLng(-23.5505, -46.6333));
+        else if(s.equalsIgnoreCase("Lahore"))
+            helper6(s,new LatLng(31.5204, 74.3587));
+        else if(s.equalsIgnoreCase("Seoul"))
+            helper6(s,new LatLng(37.5665, 126.9780));
+        else if(s.equalsIgnoreCase("Cairo"))
+            helper6(s,new LatLng(30.0444, 31.2357));
+        else if(s.equalsIgnoreCase("London"))
+            helper6(s,new LatLng(51.5074, -0.1278));
+        else if(s.equalsIgnoreCase("NewYork"))
+            helper6(s,new LatLng(40.7128, -74.0060));
+        else if(s.equalsIgnoreCase("LasVegas"))
+            helper6(s,new LatLng(36.1699, -115.1398));
+        else if(s.equalsIgnoreCase("Bangkok"))
+            helper6(s,new LatLng(13.7563, 100.5018));
+        else if(s.equalsIgnoreCase("Ankara"))
+            helper6(s,new LatLng(39.9334, 32.8597));
+        else if(s.equalsIgnoreCase("CapeTown"))
+            helper6(s,new LatLng(-33.9249, 18.4241));
+        else  if(s.equalsIgnoreCase("LosAngeles"))
+            helper6(s,new LatLng(34.0522, -118.2437));
+        else if(s.equalsIgnoreCase("California"))
+            helper6(s,new LatLng(36.7783, -119.4179));
+        else if(s.equalsIgnoreCase("Berlin"))
+            helper6(s,new LatLng(52.5200, 13.4050));
+        else if(s.equalsIgnoreCase("Dubai"))
+            helper6(s,new LatLng(25.2048, 55.2708));
+        else if(s.equalsIgnoreCase("Kathmandu"))
+            helper6(s,new LatLng(27.7172, 85.3240));
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -471,6 +524,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             LatLng Roorkee = new LatLng(29.8453, 77.8880);
             mMap.addMarker(new MarkerOptions().position(Roorkee).title("Roorkee"));
+            if(ll[y]==null)
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(Roorkee));
+            else
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(ll[y]));
             LinkIt(parent,y);
 
         } catch (Exception e) {
