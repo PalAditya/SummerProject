@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity
         try
         {
             String str=getIntent().getStringExtra("City");
-            Log.e("Eh",str);
             changeCity(str);
         }catch (Exception e)
         {
@@ -149,7 +148,6 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("Uh",requestCode+","+resultCode);
         if(requestCode == SIGN_IN_REQUEST_CODE) {
             if(resultCode == RESULT_OK) {
                 Toast.makeText(this,
@@ -216,7 +214,6 @@ public class MainActivity extends AppCompatActivity
             }catch (Exception e)
             {
                 Log.e("Couldn't start :( ",e.getMessage());
-                /*Super useless change*/
             }
         }
         return false;

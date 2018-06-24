@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
@@ -11,6 +12,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -75,11 +77,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String str = "";
     String menus[]=null;
     MyReceiver myReceiver;
+    ImageView imageView=null;
     Context mCtx=null;
     String DisasterString="";
     void call(String a)
     {
-        DisasterString=a;
+        try {
+            DisasterString = a;
+            int d;
+            d = a.indexOf(".");
+            String point = a.substring(0, d).trim();
+            if (index(point) < 100 && ll[index(point)] != null) {
+                LatLng l = ll[index(point)];
+                mMap.addMarker(new MarkerOptions().title(a.substring(d+2)).position(l));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(l));
+
+            } else {
+                //doNothing()
+            }
+        }catch(Exception e)
+        {
+            Log.e("Known exception",e.getMessage());
+        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +107,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                // Get extra data included in the Intent
-
                 final String message = intent.getStringExtra("Status");
                 //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                 Log.e("A",message);
@@ -129,7 +146,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
-        navigationView.inflateHeaderView(R.layout.header_view);
+        View headerview=navigationView.inflateHeaderView(R.layout.header_view);
+        try {
+            imageView = headerview.findViewById(R.id.Yagami);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+
+                }
+            });
+        }catch (Exception e)
+        {
+            Log.e("Image exception",e.getMessage());
+        }
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -224,7 +258,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
-    private void dummy6(final String s) {
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run(){
+                        Toast.makeText(getApplicationContext(),"Your image will change shortly :)",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        };
+        timer.schedule(timerTask, 3000);
+        /*if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Toast.makeText(getApplicationContext(),"Your image will change shortly :)",Toast.LENGTH_SHORT).show();*/
+            /*Uri uri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                // Log.d(TAG, String.valueOf(bitmap));
+                imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
+        }
+        private void dummy6(final String s) {
         mMap.clear();
         if(s.equalsIgnoreCase("Sydney"))
             helper6(s,new LatLng(-33.8688, 151.2093));
@@ -519,10 +580,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String parts2=DisasterString.substring(DisasterString.indexOf(".")+1);
                 Log.e("E",parts1+","+parts2);
                 LatLng a=null;
-                    /*if(ll[index(parts1)]==null)
+                    if(ll[index(parts1)]==null)
                         a=getLocationFromAddress(this,parts1);
                     else
-                        a=ll[index(parts1)];*/
+                        a=ll[index(parts1)];
                 a=getLocationFromAddress(this,parts1);
                 if(a!=null)
                     mMap.addMarker(new MarkerOptions().position(a).title(parts2));
@@ -543,7 +604,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private void LinkIt(int par[], int x) {
-        //Log.e("Umm","Inside LinkIt :(");
         if (par[x] != x) {
             LatLng a1 , a2 ;
             if(ll[x]!=null)

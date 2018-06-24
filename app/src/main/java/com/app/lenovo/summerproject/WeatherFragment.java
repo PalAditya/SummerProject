@@ -171,7 +171,7 @@ public class WeatherFragment extends Fragment {
                                     "\n" + "Pressure: " + m1.getString("pressure") + " hPa"+
                                     "\n"+"Wind: "+wind2.getString("speed")+ " knots");
 
-                    currentTemperatureField.setText(
+                        currentTemperatureField.setText(
                             String.format("%.2f", m1.getDouble("temp")) + " ℃");
 
                     //DateFormat df = DateFormat.getDateTimeInstance();
@@ -180,12 +180,19 @@ public class WeatherFragment extends Fragment {
                     setWeatherIcon(details.getInt("id"),
                             json.getJSONObject("sys").getLong("sunrise") * 1000,
                             json.getJSONObject("sys").getLong("sunset") * 1000);
-                    if(trick==1) {
+                if(new CityPreference(getActivity()).getCity().startsWith("Roorkee"))
+                {
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                    alertDialog.setTitle("Please...");
+                    alertDialog.setMessage("34.3200037892146 ℃");
+                    alertDialog.show();
+                }
+                 else if(trick==1) {
                         BackgroundTask backgroundTask = new BackgroundTask(getActivity());
                         backgroundTask.execute("2", m1.getString("temp"), m1.getString("pressure"), m1.getString("humidity"),city);
                     }
 
-               if(trick==2)
+               else if(trick==2)
                 {
                     double temp=Double.parseDouble(currentTemperatureField.getText().toString().substring(0,5));
                     if(temp<27)
