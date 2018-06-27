@@ -34,6 +34,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
     public interface AsyncResponse {
         void processFinish(String output);
         void processFinish2(String s2);
+        void processFinish3(String s3);
     }
     int index(String s) {
         Log.e("s",s);
@@ -122,6 +123,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
                 Log.e("Eh",index+"");*/
                 String str="";
                 params[4]=params[4].substring(0,params[4].length()-3);
+                Log.e("City",params[4]);
                 for(int i=0;i<25;i++) {
                     if((str=in.readLine())!=null) {
                         String s1[] =str.split(" ");
@@ -250,10 +252,12 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
         }
         else
         {
-            alertDialog = new AlertDialog.Builder(ctx).create();
+            /*alertDialog = new AlertDialog.Builder(ctx).create();
             alertDialog.setTitle("Please...");
             alertDialog.setMessage(result);
-            alertDialog.show();
+            alertDialog.show();*/
+            Log.e("Result",result);
+            delegate.processFinish3(result+"");
         }
 
     }

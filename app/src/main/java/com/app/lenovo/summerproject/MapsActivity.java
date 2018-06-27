@@ -365,8 +365,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        //LatLngBounds BOUNDS_INDIA = new LatLngBounds(new LatLng(19.63936, 76.14712), new LatLng(28.20453, 91.34466));
-        //mMap.setLatLngBoundsForCameraTarget(BOUNDS_INDIA);
         mMap.setMinZoomPreference(5);
         LatLng Roorkee = new LatLng(29.8453, 77.8880);
         mMap.addMarker(new MarkerOptions().position(Roorkee).title("Roorkee"));
@@ -636,7 +634,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         backgroundTask.execute("1", req);
     }
     private void showInputDialog(final String req){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("  Additional Information"+System.lineSeparator());
         Context context = this;
         LinearLayout layout = new LinearLayout(context);
@@ -653,7 +651,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         descriptionBox.setHint("Description");
         layout.addView(tv2);
         layout.addView(descriptionBox); // Another add method
-        builder.setView(layout);
+        builder.setView(layout);*/
         boolean wrapInScrollView = true;
         MaterialDialog.Builder dialog=new MaterialDialog.Builder(this)
                 .title("Additional information")
@@ -771,6 +769,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.e("Whatever",e.getMessage());
         }
     }
+
+    @Override
+    public void processFinish3(String s3) {
+
+    }
+
     private class MyReceiver extends BroadcastReceiver {
 
         @Override

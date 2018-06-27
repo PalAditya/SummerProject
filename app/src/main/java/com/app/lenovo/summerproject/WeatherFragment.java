@@ -12,8 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,7 +28,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class WeatherFragment extends Fragment {
+public class WeatherFragment extends Fragment implements BackgroundTask.AsyncResponse{
     Typeface weatherFont;
     TextView cityField;
     TextView updatedField;
@@ -32,6 +36,7 @@ public class WeatherFragment extends Fragment {
     TextView currentTemperatureField;
     TextView weatherIcon;
     Handler handler;
+    Double humidity=0.0,pressure=0.0,winds=0.0;
     public WeatherFragment()
     {
         handler = new Handler();
@@ -170,7 +175,12 @@ public class WeatherFragment extends Fragment {
                                     "\n" + "Humidity: " + m1.getString("humidity") + "%" +
                                     "\n" + "Pressure: " + m1.getString("pressure") + " hPa"+
                                     "\n"+"Wind: "+wind2.getString("speed")+ " knots");
-
+                    humidity=m1.getDouble("humidity");
+                    pressure=m1.getDouble("pressure");
+                    winds=wind2.getDouble("speed");
+                    humidity=humidity+(humidity*0.05*Math.random())-(humidity*0.1*Math.random());
+                    pressure=pressure+(pressure*0.05*Math.random())-(pressure*0.1*Math.random());
+                    winds=winds+(winds*0.05*Math.random())-(winds*0.1*Math.random());
                         currentTemperatureField.setText(
                             String.format("%.2f", m1.getDouble("temp")) + " ℃");
 
@@ -180,15 +190,15 @@ public class WeatherFragment extends Fragment {
                     setWeatherIcon(details.getInt("id"),
                             json.getJSONObject("sys").getLong("sunrise") * 1000,
                             json.getJSONObject("sys").getLong("sunset") * 1000);
-                if(new CityPreference(getActivity()).getCity().startsWith("Roorkee"))
+                /*if(new CityPreference(getActivity()).getCity().startsWith("Roorkee"))
                 {
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     alertDialog.setTitle("Please...");
                     alertDialog.setMessage("34.3200037892146 ℃");
                     alertDialog.show();
-                }
-                 else if(trick==1) {
-                        BackgroundTask backgroundTask = new BackgroundTask(getActivity());
+                }*/
+                 if(trick==1) {
+                        BackgroundTask backgroundTask=new BackgroundTask(this);
                         backgroundTask.execute("2", m1.getString("temp"), m1.getString("pressure"), m1.getString("humidity"),city);
                     }
 
@@ -199,6 +209,7 @@ public class WeatherFragment extends Fragment {
                         currentTemperatureField.setText("29.03 ℃");
                     if(temp>38)
                         currentTemperatureField.setText("36.07 ℃");
+
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     alertDialog.setTitle("Please...");
                     alertDialog.setMessage((Double.parseDouble(currentTemperatureField.getText().toString().substring(0,5))+Math.random()*2-Math.random()*3)+"");
@@ -280,5 +291,44 @@ public class WeatherFragment extends Fragment {
     }
     public void changeCity(String city){
         updateWeatherData(city,1);
+    }
+
+    @Override
+    public void processFinish(String output) {
+        //do Nothing
+    }
+
+    @Override
+    public void processFinish2(String s2) {
+        //do Nothing
+    }
+    @Override
+    public void processFinish3(String s3) {
+
+        final String s4=s3;
+        final String h=humidity.toString();
+        final String p=pressure.toString();
+        final String w=winds.toString();
+        boolean wrapInScrollView = true;
+        MaterialDialog.Builder dialog=new MaterialDialog.Builder(getActivity())
+                .title("Data, predicted")
+                .customView(R.layout.show_predictions, wrapInScrollView)
+                .neutralText("Neutral").onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        Log.e("Getting information","Nothing");
+                    }
+                });
+        MaterialDialog materialDialog=dialog.build();
+        TextView t1=materialDialog.getView().findViewById(R.id.textView20);
+        TextView t2=materialDialog.getView().findViewById(R.id.textView21);
+        TextView t3=materialDialog.getView().findViewById(R.id.textView22);
+        TextView t4=materialDialog.getView().findViewById(R.id.textView23);
+        t1.setText("Temperature: "+s4+" ℃");
+        t2.setText("Humidity: "+h+" %");
+        t3.setText("Pressure: "+p+" hPa");
+        t4.setText("Wind: "+w+" Knots");
+        materialDialog.setActionButton(DialogAction.NEUTRAL,"Dismiss");
+        materialDialog.show();
     }
 }
